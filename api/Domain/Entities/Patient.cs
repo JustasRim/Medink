@@ -1,11 +1,11 @@
 ﻿using Domain.Common;
-using Domain.Enums;
 using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Entities
 {
-    public class Medic : BaseEntity
+    public class Patient : BaseEntity
     {
+
         [Required]
         [StringLength(100)]
         public string? Name { get; set; }
@@ -23,6 +23,11 @@ namespace Domain.Entities
         [Phone]
         public string? Number { get; set; }
 
-        public IList<Patient>? Patients { get; set; }
+
+        public int? MedicId { get; set; }
+
+        public Medic? Medic { get; set; }
+
+        public IList<Symptom>? Symptoms { get; set; }
     }
 }
