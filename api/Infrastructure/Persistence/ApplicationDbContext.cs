@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace Infrastructure.Persistence
 {
-    internal class ApplicationDbContext : DbContext, IDbContext
+    internal class ApplicationDbContext : DbContext, IApplicationDbContext
     {
         public DbSet<Medic> Medics => Set<Medic>();
 

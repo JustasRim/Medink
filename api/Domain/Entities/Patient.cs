@@ -5,7 +5,6 @@ namespace Domain.Entities
 {
     public class Patient : BaseEntity
     {
-
         [Required]
         [StringLength(100)]
         public string? Name { get; set; }
@@ -22,7 +21,6 @@ namespace Domain.Entities
         [Required]
         [Phone]
         public string? Number { get; set; }
-
 
         public int? MedicId { get; set; }
 

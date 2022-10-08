@@ -1,4 +1,5 @@
-﻿using Infrastructure.Persistence;
+﻿using api.Application.Common.Interfaces;
+using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
@@ -12,6 +13,9 @@ public static class DependencyInjection
             options.UseNpgsql(configuration.GetConnectionString("MedinkDatabase"),
             builder => builder.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
 
+
+        services.AddScoped<IApplicationDbContext>(q => q.GetRequiredService<ApplicationDbContext>());
+        
         return services;
     }
 } 

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace api.Application.Common.Interfaces;
 
-public interface IDbContext
+public interface IApplicationDbContext
 {
     DbSet<Medic> Medics { get; }
     
