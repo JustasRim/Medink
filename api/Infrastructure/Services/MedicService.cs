@@ -14,10 +14,9 @@ public class MedicService : IMedicService
         _context = context; 
     }
 
-    public async Task<int> CreateMedic(Medic medic)
+    public async Task<int> Create(Medic medic)
     {
         _context.Medics.Add(medic);
-
         return await _context.SaveChangesAsync();
     }
 
@@ -27,17 +26,17 @@ public class MedicService : IMedicService
         return await _context.SaveChangesAsync();
     }
 
-    public async Task<Medic?> GetMedic(int id)
+    public async Task<Medic?> Get(int id)
     {
         return await _context.Medics.FirstOrDefaultAsync(q => q.Id == id);
     }
 
-    public async Task<IList<Medic>> GetMedics()
+    public async Task<IList<Medic>> Get()
     {
         return await _context.Medics.ToListAsync();
     }
 
-    public async Task<int> UpdateMedic(Medic medic)
+    public async Task<int> Update(Medic medic)
     {
         var medicToUpdate = await _context.Medics.FirstOrDefaultAsync(q => q.Id == medic.Id);
 

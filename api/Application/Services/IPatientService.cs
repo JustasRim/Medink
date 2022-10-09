@@ -3,6 +3,6 @@ using Domain.Entities;
 
 namespace Application.Services;
 
-public interface IMedicService : ICrud<Medic>
+public interface IPatientService : ICrud<Patient>
 {
 }
