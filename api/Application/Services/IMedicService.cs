@@ -5,4 +5,5 @@ namespace Application.Services;
 
 public interface IMedicService : ICrud<Medic>
 {
+    IList<Symptom>? GetSymptoms(int medicId, int patientId);
 }

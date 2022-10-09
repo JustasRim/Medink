@@ -52,4 +52,26 @@ public class MedicService : IMedicService
 
         return await _context.SaveChangesAsync();
     }
+
+    public IList<Symptom>? GetSymptoms(int medicId, int patientId)
+    {
+        var symptoms = _context.Medics
+            .Include(q => q.Patients)!
+            .ThenInclude(q => q.Symptoms)
+            .FirstOrDefault(q => q.Id == medicId)
+            ?.Patients?.FirstOrDefault(q => q.Id == patientId)
+            ?.Symptoms;
+        
+        if (symptoms == null)
+        {
+            return new List<Symptom>();
+        }
+
+        foreach (var symptom in symptoms)
+        {
+            symptom.Patient = null;
+        }
+
+        return symptoms.ToList();
+    }
 }

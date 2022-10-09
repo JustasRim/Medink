@@ -44,5 +44,12 @@ namespace api.Controllers
         {
             return Ok(await _medicService.Delete(id));
         }
+
+        [HttpGet("{medicId}/patient/{patientId}")]
+        public IActionResult GetSymptoms(int medicId, int patientId)
+        {
+            var symptoms = _medicService.GetSymptoms(medicId, patientId);
+            return Ok(symptoms);
+        }
     }
 }
