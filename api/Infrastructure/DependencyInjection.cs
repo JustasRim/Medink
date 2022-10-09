@@ -1,5 +1,7 @@
 ﻿using api.Application.Common.Interfaces;
+using Application.Services;
 using Infrastructure.Persistence;
+using Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
@@ -15,7 +17,8 @@ public static class DependencyInjection
 
 
         services.AddScoped<IApplicationDbContext>(q => q.GetRequiredService<ApplicationDbContext>());
-        
+
+        services.AddTransient<IMedicService, MedicService>();
         return services;
     }
 } 

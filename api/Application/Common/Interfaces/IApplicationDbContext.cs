@@ -10,5 +10,7 @@ public interface IApplicationDbContext
     DbSet<Patient> Patients { get; }
 
     DbSet<Symptom> Symptoms { get; }
+
+    Task<int> SaveChangesAsync();
 }
 
