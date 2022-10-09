@@ -6,7 +6,7 @@ public interface IMedicService
 {
     Task<int> CreateMedic(Medic medic);
 
-    Task<bool> UpdateMedic(Medic medic);
+    Task<int> UpdateMedic(Medic medic);
 
     Task<IList<Medic>> GetMedics();
 

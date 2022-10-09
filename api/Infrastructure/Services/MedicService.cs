@@ -37,18 +37,20 @@ public class MedicService : IMedicService
         return await _context.Medics.ToListAsync();
     }
 
-    public async Task<bool> UpdateMedic(Medic medic)
+    public async Task<int> UpdateMedic(Medic medic)
     {
         var medicToUpdate = await _context.Medics.FirstOrDefaultAsync(q => q.Id == medic.Id);
 
         if (medicToUpdate is null)
         {
-            return false;
+            return -1;
         }
 
-        medicToUpdate = medic;
-        await _context.SaveChangesAsync();
+        medicToUpdate.Email = medic.Email;
+        medicToUpdate.Name = medic.Name;
+        medicToUpdate.LastName = medic.LastName;
+        medicToUpdate.Number = medic.Number;
 
-        return true;
+        return await _context.SaveChangesAsync();
     }
 }
