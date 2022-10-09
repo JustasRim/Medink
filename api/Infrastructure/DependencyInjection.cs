@@ -20,6 +20,7 @@ public static class DependencyInjection
 
         services.AddTransient<IMedicService, MedicService>();
         services.AddTransient<IPatientService, PatientService>();
+        services.AddTransient<ISymptomService, SymptomService>();
 
         return services;
     }
