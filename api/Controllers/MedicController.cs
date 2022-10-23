@@ -18,19 +18,38 @@ namespace api.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            return Ok(await _medicService.Get());
+            var medics = await _medicService.Get();
+
+            if (medics == null || medics.Count == 0)
+            {
+                return NoContent();
+            }
+
+            return Ok(medics);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            return Ok(await _medicService.Get(id));
+            var medic = await _medicService.Get(id);
+
+            if (medic == null)
+            {
+                return NoContent();
+            }
+
+            return Ok(medic);
         }
 
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] Medic medic)
         {
-            return Ok(await _medicService.Create(medic));
+            if (await _medicService.Create(medic) >= 0)
+            {
+                return Created("/api/v1/Medic", medic);
+            }
+            
+            return BadRequest();
         }
 
         [HttpPut]
@@ -49,6 +68,11 @@ namespace api.Controllers
         public IActionResult GetSymptoms(int medicId, int patientId)
         {
             var symptoms = _medicService.GetSymptoms(medicId, patientId);
+            if (symptoms == null || symptoms.Count == 0)
+            {
+                return NoContent();
+            }
+
             return Ok(symptoms);
         }
     }

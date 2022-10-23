@@ -1,5 +1,6 @@
 ﻿using Application.Services;
 using Domain.Entities;
+using Infrastructure.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api.Controllers
@@ -18,19 +19,36 @@ namespace api.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            return Ok(await _patientService.Get());
+            var patient = await _patientService.Get();
+            if (patient == null || patient.Count == 0)
+            {
+                return NotFound();
+            }
+
+            return Ok(patient);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            return Ok(await _patientService.Get(id));
+            var patient = await _patientService.Get(id);
+            if (patient == null)
+            {
+                return NoContent();
+            }
+
+            return Ok(patient);
         }
 
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] Patient patient)
         {
-            return Ok(await _patientService.Create(patient));
+            if (await _patientService.Create(patient) >= 0)
+            {
+                return Created("/api/v1/Medic", patient);
+            }
+
+            return BadRequest();
         }
 
         [HttpPut]

@@ -16,8 +16,15 @@ internal class PatientService : IPatientService
 
     public async Task<int> Create(Patient patient)
     {
-        _context.Patients.Add(patient);
-        return await _context.SaveChangesAsync();
+        try
+        {
+            _context.Patients.Add(patient);
+            return await _context.SaveChangesAsync();
+        }
+        catch (Exception)
+        {
+            return -1;
+        }
     }
 
     public async Task<int> Delete(int id)
@@ -36,13 +43,13 @@ internal class PatientService : IPatientService
         return await _context.Patients.FirstOrDefaultAsync(q => q.Id == id);
     }
 
-    public async Task<int> Update(Patient patient)
+    public async Task<Patient?> Update(Patient patient)
     {
         var patientToUpdate = await _context.Patients.FirstOrDefaultAsync(q => q.Id == patient.Id);
 
         if (patientToUpdate is null)
         {
-            return -1;
+            return null;
         }
 
         patientToUpdate.Email = patient.Email;
@@ -51,6 +58,7 @@ internal class PatientService : IPatientService
         patientToUpdate.Number = patient.Number;
         patientToUpdate.MedicId = patient.MedicId;
 
-        return await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync();
+        return patientToUpdate;
     }
 }

@@ -18,19 +18,36 @@ namespace api.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            return Ok(await _symptomService.Get());
+            var symptoms = await _symptomService.Get();
+            if (symptoms == null || symptoms.Count == 0)
+            {
+                return NoContent();
+            }
+
+            return Ok(symptoms);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            return Ok(await _symptomService.Get(id));
+            var symptom = await _symptomService.Get(id);
+            if (symptom == null)
+            {
+                return NoContent();
+            }
+
+            return Ok(symptom);
         }
 
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] Symptom symptom)
         {
-            return Ok(await _symptomService.Create(symptom));
+            if (await _symptomService.Create(symptom) >= 0)
+            {
+                return Created("/api/v1/Medic", symptom);
+            }
+
+            return BadRequest();
         }
 
         [HttpPut]

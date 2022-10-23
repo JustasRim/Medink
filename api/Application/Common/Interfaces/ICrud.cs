@@ -6,7 +6,7 @@ public interface ICrud<T>
 {
     Task<int> Create(T obj);
 
-    Task<int> Update(T obj);
+    Task<T?> Update(T obj);
 
     Task<IList<T>> Get();
 

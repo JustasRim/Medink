@@ -16,8 +16,15 @@ public class MedicService : IMedicService
 
     public async Task<int> Create(Medic medic)
     {
-        _context.Medics.Add(medic);
-        return await _context.SaveChangesAsync();
+        try
+        {
+            _context.Medics.Add(medic);
+            return await _context.SaveChangesAsync();
+        } 
+        catch(Exception)
+        {
+            return -1;
+        }
     }
 
     public async Task<int> Delete(int id)
@@ -36,13 +43,13 @@ public class MedicService : IMedicService
         return await _context.Medics.ToListAsync();
     }
 
-    public async Task<int> Update(Medic medic)
+    public async Task<Medic?> Update(Medic medic)
     {
         var medicToUpdate = await _context.Medics.FirstOrDefaultAsync(q => q.Id == medic.Id);
 
         if (medicToUpdate is null)
         {
-            return -1;
+            return null;
         }
 
         medicToUpdate.Email = medic.Email;
@@ -50,7 +57,8 @@ public class MedicService : IMedicService
         medicToUpdate.LastName = medic.LastName;
         medicToUpdate.Number = medic.Number;
 
-        return await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync();
+        return medicToUpdate;
     }
 
     public IList<Symptom>? GetSymptoms(int medicId, int patientId)

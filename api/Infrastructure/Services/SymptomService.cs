@@ -16,8 +16,15 @@ namespace Infrastructure.Services
 
         public async Task<int> Create(Symptom symptom)
         {
-            _context.Symptoms.Add(symptom);
-            return await _context.SaveChangesAsync();
+            try
+            {
+                _context.Symptoms.Add(symptom);
+                return await _context.SaveChangesAsync();
+            }
+            catch (Exception)
+            {
+                return -1;
+            }
         }
 
         public async Task<int> Delete(int id)
@@ -36,20 +43,21 @@ namespace Infrastructure.Services
             return await _context.Symptoms.FirstOrDefaultAsync(q => q.Id == id);
         }
 
-        public async Task<int> Update(Symptom symptom)
+        public async Task<Symptom?> Update(Symptom symptom)
         {
             var symptomToUpdate = await _context.Symptoms.FirstOrDefaultAsync(q => q.Id == symptom.Id);
 
             if (symptomToUpdate is null)
             {
-                return -1;
+                return null;
             }
 
             symptomToUpdate.Description = symptom.Description;
             symptomToUpdate.Name = symptom.Name;
             symptomToUpdate.PatientId = symptom.PatientId;
 
-            return await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
+            return symptomToUpdate;
         }
     }
 }
