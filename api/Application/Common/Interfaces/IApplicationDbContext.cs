@@ -11,6 +11,8 @@ public interface IApplicationDbContext
 
     DbSet<Symptom> Symptoms { get; }
 
+    DbSet<User> Users { get; }
+
     Task<int> SaveChangesAsync();
 }
 

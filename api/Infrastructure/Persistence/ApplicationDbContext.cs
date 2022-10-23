@@ -14,6 +14,8 @@ namespace Infrastructure.Persistence
 
         public DbSet<Symptom> Symptoms => Set<Symptom>();
 
+        public DbSet<User> Users => Set<User>();
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
 

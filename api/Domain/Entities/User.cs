@@ -1,11 +1,10 @@
-﻿using Domain.Enums;
-using System.Security.Claims;
+﻿using Domain.Common;
+using Domain.Enums;
 
 namespace Domain.Entities
 {
-    internal class User
+    public class User : BaseEntity
     {
-        public List<Claim>? Claim { get; set; }
         public Role Role { get; set; }
 
         public string? SaltedHash { get; set; }

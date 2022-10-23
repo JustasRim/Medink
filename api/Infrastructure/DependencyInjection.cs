@@ -1,5 +1,7 @@
 ﻿using api.Application.Common.Interfaces;
+using Application.Helpers;
 using Application.Services;
+using Infrastructure.Helpers;
 using Infrastructure.Persistence;
 using Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
@@ -21,7 +23,9 @@ public static class DependencyInjection
         services.AddTransient<IMedicService, MedicService>();
         services.AddTransient<IPatientService, PatientService>();
         services.AddTransient<ISymptomService, SymptomService>();
+        services.AddTransient<IAuthService, AuthService>();
 
+        services.AddSingleton<IAuthHelper, AuthHelper>();
         return services;
     }
 } 

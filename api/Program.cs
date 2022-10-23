@@ -1,4 +1,8 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace api
 {
@@ -11,14 +15,21 @@ namespace api
             builder.Services.AddInfrastructure(builder.Configuration);
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-            
-            //builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-            //    .AddCookie(options =>
-            //    {
-            //        options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
-            //        options.SlidingExpiration = true;
-            //        options.AccessDeniedPath = "/Forbiden/";
-            //    });
+
+            builder.Services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(options =>
+            {
+                options.SaveToken = true;
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration.GetSection("Secrets:JwtSecret").Value))
+                };
+            });
 
             var app = builder.Build();
 
