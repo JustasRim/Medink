@@ -1,5 +1,8 @@
-﻿using Application.Services;
+﻿using api.Attributes;
+using Application.Services;
 using Domain.Entities;
+using Domain.Enums;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api.Controllers
@@ -28,9 +31,11 @@ namespace api.Controllers
             return Ok(medics);
         }
 
+        [AuthorizeRoles(Role.Admin, Role.Patient)]
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
+            var a = this.User;
             var medic = await _medicService.Get(id);
 
             if (medic == null)

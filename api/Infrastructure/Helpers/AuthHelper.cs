@@ -24,6 +24,8 @@ namespace Infrastructure.Helpers
             {
                 new Claim(JwtRegisteredClaimNames.Sub, user.Email),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim(JwtRegisteredClaimNames.Iss, _configuration.GetSection("Secrets:JwtIssuer").Value),
+                new Claim(JwtRegisteredClaimNames.Aud, _configuration.GetSection("Secrets:JwtAudience").Value),
                 new Claim(ClaimTypes.Email, user.Email),
                 new Claim(ClaimTypes.Role, user.Role.ToString())
             };

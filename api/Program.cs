@@ -26,8 +26,12 @@ namespace api
                 options.SaveToken = true;
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
+                    ValidateIssuer = true,
+                    ValidIssuer = builder.Configuration.GetSection("Secrets:JwtIssuer").Value,
+                    ValidateAudience = true,
+                    ValidAudience = builder.Configuration.GetSection("Secrets:JwtAudience").Value,
                     ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration.GetSection("Secrets:JwtSecret").Value))
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration.GetSection("Secrets:JwtSecret").Value)),
                 };
             });
 
