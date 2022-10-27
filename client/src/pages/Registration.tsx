@@ -13,7 +13,9 @@ import {
   FormControlLabel,
   Radio,
   Typography,
+  useTheme,
 } from "@mui/material";
+import { Link } from "react-router-dom";
 
 YupPassword(yup);
 
@@ -46,6 +48,8 @@ const Registration = () => {
     resolver: yupResolver(schema),
   });
 
+  const theme = useTheme();
+
   const onSubmit = async (data: inputs) => {
     const response = await ax.post("/Authentication/sign-up", data);
     debugger;
@@ -59,15 +63,15 @@ const Registration = () => {
       flexDirection="column"
       minHeight="100vh"
     >
-      <Typography variant="h1" sx={{ mb: 4 }}>
+      <Typography variant="h1" sx={{ mb: 3 }}>
         Register
       </Typography>
-      <Box component="form" width="300px" onSubmit={handleSubmit(onSubmit)}>
+      <Box component="form" maxWidth="300px" onSubmit={handleSubmit(onSubmit)}>
         <TextField
           label="Email"
           variant="outlined"
           {...register("email")}
-          sx={{ mb: 3, width: "100%" }}
+          sx={{ mb: theme.custom?.spacing?.input, width: "100%" }}
           error={!!errors.email}
         />
 
@@ -75,14 +79,14 @@ const Registration = () => {
           label="Name"
           variant="outlined"
           {...register("name")}
-          sx={{ mb: 3, width: "100%" }}
+          sx={{ mb: theme.custom?.spacing?.input, width: "100%" }}
           error={!!errors.name}
         />
         <TextField
           label="Last name"
           variant="outlined"
           {...register("lastName")}
-          sx={{ mb: 3, width: "100%" }}
+          sx={{ mb: theme.custom?.spacing?.input, width: "100%" }}
           error={!!errors.lastName}
         />
 
@@ -91,7 +95,7 @@ const Registration = () => {
           type="password"
           variant="outlined"
           {...register("password")}
-          sx={{ mb: 3, width: "100%" }}
+          sx={{ mb: theme.custom?.spacing?.input, width: "100%" }}
           error={!!errors.password}
         />
 
@@ -99,7 +103,7 @@ const Registration = () => {
           label="Confirm password"
           type="password"
           variant="outlined"
-          sx={{ mb: 3, width: "100%" }}
+          sx={{ mb: theme.custom?.spacing?.input, width: "100%" }}
           {...register("passwordConfirmation")}
           error={!!errors.passwordConfirmation}
         />
@@ -126,10 +130,11 @@ const Registration = () => {
         </FormControl>
 
         <Box display="flex" justifyContent="flex-end">
-          <Button type="submit" variant="contained">
+          <Button type="submit" variant="contained" sx={{ mb: 2 }}>
             Submit
           </Button>
         </Box>
+        <Link to="/login">Already have an account?</Link>
       </Box>
     </Box>
   );
