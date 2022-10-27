@@ -28,7 +28,7 @@ const Login = () => {
 
   const onSubmit = async (data: inputs) => {
     const response = await ax.post("/Authentication/login", data);
-    debugger;
+    console.log(response);
   };
   return (
     <Box

@@ -52,7 +52,7 @@ const Registration = () => {
 
   const onSubmit = async (data: inputs) => {
     const response = await ax.post("/Authentication/sign-up", data);
-    debugger;
+    console.log(response);
   };
 
   return (

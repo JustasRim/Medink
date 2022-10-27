@@ -19,7 +19,6 @@ namespace Domain.Entities
         [EmailAddress]
         public string? Email { get; set; }
 
-        [Required]
         [Phone]
         public string? Number { get; set; }
 

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Domain.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Dtos
 {
@@ -12,5 +13,16 @@ namespace Domain.Dtos
         [Required]
         [StringLength(100)]
         public string? Password { get; set; }
+
+        [Required]
+        [StringLength(100)]
+        public string? Name { get; set; }
+
+        [Required]
+        [StringLength(100)]
+        public string? LastName { get; set; }
+
+        [Required]
+        public Role Role { get; set; }
     }
 }

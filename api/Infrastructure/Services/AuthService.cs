@@ -38,7 +38,7 @@ namespace Infrastructure.Services
         public async Task<User?> SignUp(AuthenticateUserDto user)
         {
             var currentUser = GetUser(user);
-            if (currentUser != null)
+            if (currentUser != null || user.Role == Role.Admin)
             {
                 return null;
             }
@@ -48,8 +48,32 @@ namespace Infrastructure.Services
             {
                 Email = user.Email,
                 SaltedHash = saltedHash,
-                Role = Role.Patient
+                Role = user.Role
             };
+
+            switch(user.Role)
+            {
+                case Role.Medic:
+                    var medic = new Medic
+                    {
+                        Email = user.Email,
+                        LastName = user.LastName,
+                        Name = user.Name
+                    };
+
+                    _context.Medics.Add(medic);
+                    break;
+                case Role.Patient:
+                    var patient = new Patient
+                    {
+                        Email = user.Email,
+                        LastName = user.LastName,
+                        Name = user.Name
+                    };
+
+                    _context.Patients.Add(patient);
+                    break;
+            }
 
             _context.Users.Add(newUser);
             await _context.SaveChangesAsync();

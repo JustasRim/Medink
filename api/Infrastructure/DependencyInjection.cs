@@ -26,6 +26,7 @@ public static class DependencyInjection
         services.AddTransient<IAuthService, AuthService>();
 
         services.AddSingleton<IAuthHelper, AuthHelper>();
+
         return services;
     }
 } 
