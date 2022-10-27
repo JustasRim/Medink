@@ -17,7 +17,7 @@ namespace api
             builder.Services.AddSwaggerGen();
             builder.Services.AddCors(options =>
             {
-                options.AddPolicy("mainPolicy", policy =>
+                options.AddDefaultPolicy(policy =>
                 {
                     policy.WithOrigins("http://localhost:3000")
                         .AllowAnyMethod()
@@ -55,7 +55,7 @@ namespace api
 
             app.UseHttpsRedirection();
 
-            app.UseCors("mainPolicy");
+            app.UseCors();
 
             app.UseAuthentication();
             app.UseAuthorization();

@@ -1,19 +1,40 @@
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
+import YupPassword from "yup-password";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { ErrorMessage } from "@hookform/error-message";
 import ax from "../utilities/Axios";
+import {
+  Box,
+  TextField,
+  Button,
+  FormControl,
+  FormLabel,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
+  Typography,
+} from "@mui/material";
+
+YupPassword(yup);
 
 const schema = yup.object().shape({
   name: yup.string().required(),
   lastName: yup.string().required(),
   email: yup.string().email().required(),
+  role: yup.string().required(),
+  password: yup.string().password(),
+  passwordConfirmation: yup
+    .string()
+    .oneOf([yup.ref("password"), null], "Passwords must match"),
 });
 
 type inputs = {
   name: string;
   lastName: string;
   email: string;
+  password: string;
+  passwordConfirmation: string;
+  role: "patient" | "medic";
 };
 
 const Registration = () => {
@@ -31,19 +52,86 @@ const Registration = () => {
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <input {...register("name")} />
-        <ErrorMessage
-          errors={errors}
-          name="name"
-          render={({ message }) => <p>{message}</p>}
+    <Box
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+      flexDirection="column"
+      minHeight="100vh"
+    >
+      <Typography variant="h1" sx={{ mb: 4 }}>
+        Register
+      </Typography>
+      <Box component="form" width="300px" onSubmit={handleSubmit(onSubmit)}>
+        <TextField
+          label="Email"
+          variant="outlined"
+          {...register("email")}
+          sx={{ mb: 3, width: "100%" }}
+          error={!!errors.email}
         />
-        <input {...register("lastName")} />
-        <input {...register("email")} />
-        <input type="submit" />
-      </form>
-    </div>
+
+        <TextField
+          label="Name"
+          variant="outlined"
+          {...register("name")}
+          sx={{ mb: 3, width: "100%" }}
+          error={!!errors.name}
+        />
+        <TextField
+          label="Last name"
+          variant="outlined"
+          {...register("lastName")}
+          sx={{ mb: 3, width: "100%" }}
+          error={!!errors.lastName}
+        />
+
+        <TextField
+          label="Password"
+          type="password"
+          variant="outlined"
+          {...register("password")}
+          sx={{ mb: 3, width: "100%" }}
+          error={!!errors.password}
+        />
+
+        <TextField
+          label="Confirm password"
+          type="password"
+          variant="outlined"
+          sx={{ mb: 3, width: "100%" }}
+          {...register("passwordConfirmation")}
+          error={!!errors.passwordConfirmation}
+        />
+
+        <FormControl error={!!errors.role}>
+          <FormLabel id="radio-role-group">Register as:</FormLabel>
+          <RadioGroup
+            aria-labelledby="radio-role-group"
+            name="radio-role-group"
+          >
+            <FormControlLabel
+              value="patient"
+              {...register("role")}
+              control={<Radio />}
+              label="Patient"
+            />
+            <FormControlLabel
+              value="medic"
+              {...register("role")}
+              control={<Radio />}
+              label="Medic"
+            />
+          </RadioGroup>
+        </FormControl>
+
+        <Box display="flex" justifyContent="flex-end">
+          <Button type="submit" variant="contained">
+            Submit
+          </Button>
+        </Box>
+      </Box>
+    </Box>
   );
 };
 
