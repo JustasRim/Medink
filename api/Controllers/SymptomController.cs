@@ -1,9 +1,13 @@
-﻿using Application.Services;
+﻿using api.Attributes;
+using Application.Services;
 using Domain.Entities;
+using Domain.Enums;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api.Controllers
 {
+    [Authorize]
     [Route("api/v1/[controller]")]
     [ApiController]
     public class SymptomController : Controller
@@ -39,6 +43,7 @@ namespace api.Controllers
             return Ok(symptom);
         }
 
+        [AuthorizeRoles(Role.Admin, Role.Patient)]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] Symptom symptom)
         {
@@ -50,12 +55,14 @@ namespace api.Controllers
             return BadRequest();
         }
 
+        [AuthorizeRoles(Role.Admin, Role.Patient)]
         [HttpPut]
         public async Task<IActionResult> Update([FromBody] Symptom symptom)
         {
             return Ok(await _symptomService.Update(symptom));
         }
 
+        [AuthorizeRoles(Role.Admin, Role.Patient)]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {

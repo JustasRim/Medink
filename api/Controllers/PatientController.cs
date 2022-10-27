@@ -1,6 +1,7 @@
-﻿using Application.Services;
+﻿using api.Attributes;
+using Application.Services;
 using Domain.Entities;
-using Infrastructure.Services;
+using Domain.Enums;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api.Controllers
@@ -16,6 +17,7 @@ namespace api.Controllers
             _patientService = patientService;
         }
 
+        [AuthorizeRoles(Role.Admin, Role.Medic)]
         [HttpGet]
         public async Task<IActionResult> Index()
         {
@@ -28,6 +30,7 @@ namespace api.Controllers
             return Ok(patient);
         }
 
+        [AuthorizeRoles(Role.Admin, Role.Medic)]
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
@@ -40,6 +43,7 @@ namespace api.Controllers
             return Ok(patient);
         }
 
+        [AuthorizeRoles(Role.Admin)]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] Patient patient)
         {
@@ -51,12 +55,14 @@ namespace api.Controllers
             return BadRequest();
         }
 
+        [AuthorizeRoles(Role.Admin)]
         [HttpPut]
         public async Task<IActionResult> Update([FromBody] Patient patient)
         {
             return Ok(await _patientService.Update(patient));
         }
 
+        [AuthorizeRoles(Role.Admin)]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
