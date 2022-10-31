@@ -22,13 +22,14 @@ jobs:
           node-version: '16.x'
 
       - name: npm install, build, and test
+        working-directory: .\client
         run: |
-          npm install .\client
-          npm run build .\client --if-present
-          npm run test .\client --if-present
+          npm install
+          npm run build --if-present
+          npm run test --if-present
       
       - name: Zip artifact
-        run: Compress-Archive .\client release.zip
+        run: Compress-Archive .\client\ release.zip
       
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
