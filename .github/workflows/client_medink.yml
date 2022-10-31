@@ -1,7 +1,7 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: medink - client
+name: medink-client
 
 on:
   push:
@@ -52,5 +52,5 @@ jobs:
         with:
           app-name: 'medink'
           slot-name: 'production'
-          publish-profile: ${{ secrets.AzureAppService_PublishProfile_4a8221119bca4158a3f205270f1c3275 }}
+          publish-profile: ${{ secrets.AzureAppService_client_publishprofile }}
           package: .
