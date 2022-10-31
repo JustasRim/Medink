@@ -28,7 +28,7 @@ jobs:
           npm run test .\client --if-present
       
       - name: Zip artifact
-        run: Compress-Archive . release.zip
+        run: Compress-Archive .\client release.zip
       
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
