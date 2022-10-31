@@ -57,6 +57,5 @@ jobs:
         id: deploy-to-webapp
         with:
           app-name: 'medink'
-          slot-name: 'production'
           publish-profile: ${{ secrets.AzureAppService_client_publishprofile }}
           package: .
