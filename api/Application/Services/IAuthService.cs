@@ -5,8 +5,8 @@ namespace Application.Services
 {
     public interface IAuthService
     {
-        public User? ValidateUser(AuthenticateUserDto user);
+        public User? ValidateUser(LoginUserDto user);
 
-        Task<User?> SignUp(AuthenticateUserDto user);
+        Task<User?> SignUp(RegisterUserDto user);
     }
 }

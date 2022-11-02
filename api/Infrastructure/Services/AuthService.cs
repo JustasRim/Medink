@@ -9,7 +9,7 @@ namespace Infrastructure.Services
 {
     public class AuthService : IAuthService
     {
-        private readonly PasswordHasher<AuthenticateUserDto> _hasher = new PasswordHasher<AuthenticateUserDto>();
+        private readonly PasswordHasher<LoginUserDto> _hasher = new PasswordHasher<LoginUserDto>();
 
         private readonly IApplicationDbContext _context;
 
@@ -18,7 +18,7 @@ namespace Infrastructure.Services
             _context = context;
         }
 
-        public User? ValidateUser(AuthenticateUserDto user)
+        public User? ValidateUser(LoginUserDto user)
         {
             var currentUser = GetUser(user);
             if (currentUser == null)
@@ -35,7 +35,7 @@ namespace Infrastructure.Services
             return currentUser;
         }
 
-        public async Task<User?> SignUp(AuthenticateUserDto user)
+        public async Task<User?> SignUp(RegisterUserDto user)
         {
             var currentUser = GetUser(user);
             if (currentUser != null || user.Role == Role.Admin)
@@ -81,7 +81,7 @@ namespace Infrastructure.Services
             return newUser;
         }
 
-        private User? GetUser(AuthenticateUserDto user)
+        private User? GetUser(LoginUserDto user)
         {
             if (user == null)
             {

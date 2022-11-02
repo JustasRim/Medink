@@ -21,7 +21,7 @@ namespace api.Controllers
         }
 
         [HttpPost("login")]
-        public IActionResult Login(AuthenticateUserDto userDto)
+        public IActionResult Login(LoginUserDto userDto)
         {
             var user = _authService.ValidateUser(userDto);
             if (user == null)
@@ -34,7 +34,7 @@ namespace api.Controllers
         }
 
         [HttpPost("sign-up")]
-        public async Task<IActionResult> SignUp(AuthenticateUserDto userDto)
+        public async Task<IActionResult> SignUp(RegisterUserDto userDto)
         {
             var user = await _authService.SignUp(userDto);
             if (user == null)
