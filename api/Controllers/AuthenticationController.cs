@@ -26,7 +26,7 @@ namespace api.Controllers
             var user = _authService.ValidateUser(userDto);
             if (user == null)
             {
-                return BadRequest();
+                return Unauthorized();
             }
 
             var jwt = _authHelper.GetAuthToken(user);
