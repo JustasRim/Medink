@@ -144,6 +144,7 @@ namespace Application.Tests.Services
             context.Patients.Add(patient);
             context.Symptoms.Add(symptom1);
             context.Symptoms.Add(symptom2);
+            context.SaveChanges();
 
             var symptoms = medicService.GetSymptoms(1, 1);
             Assert.True(symptoms.Contains(symptom1));
