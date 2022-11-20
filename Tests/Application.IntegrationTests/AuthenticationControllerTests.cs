@@ -1,31 +1,55 @@
+using api;
+using api.Application.Common.Interfaces;
+using Domain.Dtos;
 using Infrastructure.Persistence;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualStudio.TestPlatform.TestHost;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using System.Net.Http.Json;
+using System.Xml.Linq;
 
 namespace Application.IntegrationTests
 {
     public class AuthenticationControllerTests
     {
-        private ApplicationDbContext context = new ApplicationDbContext(new DbContextOptionsBuilder<ApplicationDbContext>()
-               .UseInMemoryDatabase(Guid.NewGuid().ToString())
-               .Options);
+        private readonly WebApplicationFactory<Program> _clientFactory;
 
-        //private Medic medic = new Medic()
-        //{
-        //    Id = 1,
-        //    Name = "Name",
-        //    LastName = "Surname",
-        //    Email = "test@email.com"
-        //};
+        public AuthenticationControllerTests()
+        {
+            _clientFactory = new WebApplicationFactory<Program>()
+               .WithWebHostBuilder(builder =>
+               {
+                   builder.ConfigureServices(services =>
+                   {
+                       services.RemoveAll(typeof(ApplicationDbContext));
+                       services.RemoveAll(typeof(IApplicationDbContext));
+                       services.RemoveAll(typeof(DbContext));
+
+                       services.AddDbContext<ApplicationDbContext>(options => options.UseInMemoryDatabase(Guid.NewGuid().ToString()));
+                       services.AddScoped<IApplicationDbContext>(q => q.GetRequiredService<ApplicationDbContext>());
+                   });
+               });
+        }
 
         [Fact]
-        public void When_LoginIn_Expect_JWTToken()
+        public async void When_SignIn_Expect_JWTToken()
         {
-            var webAppFactory = new WebApplicationFactory<Program>();
-            var httpClient = webAppFactory.CreateDefaultClient();
+            var client = _clientFactory.CreateClient();
+            var response = await client.PostAsJsonAsync("api/v1/Authentication/sign-up",
+                new RegisterUserDto()
+                {
+                    Name = "Butthead",
+                    LastName = "123",
+                    Email = "butthead@gmail.com",
+                    Password = "1231232",
+                    Role = Domain.Enums.Role.Patient
+                });
 
-            //var response = httpClient.PostAsync("", new HttpContent());
+            var registeResponse = await response.Content.ReadFromJsonAsync<TokenDto>();
+            Assert.NotNull(registeResponse);
+            Assert.True(registeResponse?.Token?.Length > 30);
+            Assert.True(registeResponse?.Expires > DateTime.Now);   
         }
     }
 }

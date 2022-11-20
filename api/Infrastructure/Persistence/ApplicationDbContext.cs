@@ -1,7 +1,6 @@
 ﻿using api.Application.Common.Interfaces;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using System.Reflection;
 
 namespace Infrastructure.Persistence
@@ -20,6 +19,7 @@ namespace Infrastructure.Persistence
         {
 
         }
+
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
