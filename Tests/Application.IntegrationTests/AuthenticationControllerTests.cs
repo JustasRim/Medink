@@ -11,7 +11,7 @@ namespace Application.IntegrationTests
             var webAppFactory = new WebApplicationFactory<Program>();
             var httpClient = webAppFactory.CreateDefaultClient();
 
-            var response = httpClient.PostAsync("", new HttpContent());
+            //var response = httpClient.PostAsync("", new HttpContent());
         }
     }
 }
