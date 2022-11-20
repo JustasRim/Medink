@@ -29,7 +29,8 @@ public class MedicService : IMedicService
 
     public async Task<int> Delete(int id)
     {
-        _context.Medics.Remove(new Medic { Id = id });
+        var medic = _context.Medics.Where(m => m.Id == id).FirstOrDefault();
+        _context.Medics.Remove(medic);
         return await _context.SaveChangesAsync();
     }
 
