@@ -38,6 +38,7 @@ namespace Infrastructure.Services
         public async Task<User?> SignUp(RegisterUserDto user)
         {
             var currentUser = GetUser(user);
+            
             if (currentUser != null || user.Role == Role.Admin)
             {
                 return null;
@@ -77,7 +78,6 @@ namespace Infrastructure.Services
 
             _context.Users.Add(newUser);
             await _context.SaveChangesAsync();
-
             return newUser;
         }
 

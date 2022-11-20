@@ -46,8 +46,77 @@ namespace Application.Tests.Integration
 
             var registeResponse = await response.Content.ReadFromJsonAsync<TokenDto>();
             Assert.NotNull(registeResponse);
+            Assert.True(registeResponse?.Token?.Length > 30); 
+        }
+
+        [Theory]
+        [MemberData(nameof(GetRegisterUserDtoDataGenerator))]
+        public async void When_SignIn_Expect_SuccsessfullLogin(RegisterUserDto dto)
+        {
+            var client = _clientFactory.CreateClient();
+
+            var response = await client.PostAsJsonAsync("api/v1/Authentication/sign-up", dto);
+            var registeResponse = await response.Content.ReadFromJsonAsync<TokenDto>();
+
+            Assert.True(response.IsSuccessStatusCode);
+            Assert.NotNull(registeResponse);
             Assert.True(registeResponse?.Token?.Length > 30);
-            Assert.True(registeResponse?.Expires > DateTime.Now);   
+        }
+
+        [Fact]
+        public async void When_SignInAsAdmin_Expect_BadRequest()
+        {
+            var client = _clientFactory.CreateClient();
+            var registerDto = new RegisterUserDto()
+            {
+                Name = "Butthead",
+                LastName = "123",
+                Email = "butthead@gmail.com",
+                Password = "1231232",
+                Role = Domain.Enums.Role.Admin
+            };
+
+            var response = await client.PostAsJsonAsync("api/v1/Authentication/sign-up", registerDto);
+            Assert.True(response.StatusCode == System.Net.HttpStatusCode.BadRequest);
+        }
+
+        public static IEnumerable<object[]> GetRegisterUserDtoDataGenerator()
+        {
+            yield return new object[]
+            {
+                new RegisterUserDto
+                {
+                    Name = "Butthead",
+                    LastName = "123",
+                    Email = "butthead@gmail.com",
+                    Password = "1231232",
+                    Role = Domain.Enums.Role.Patient
+                }
+            };
+
+            yield return new object[]
+            {
+                new RegisterUserDto
+                {
+                    Name = "AsdD@asdasdBautasdasdthead",
+                    LastName = "123",
+                    Email = "asdasdasdasdasdasdasdasdasbutthead@gmail.com",
+                    Password = "1231232",
+                    Role = Domain.Enums.Role.Medic
+                }
+            };
+
+            yield return new object[]
+            {
+                new RegisterUserDto
+                {
+                    Name = "AsdD@dasdasdasdasdasd",
+                    LastName = "dasdasdasdSADASdasdasdasdasasda",
+                    Email = "asdasdasdasdasdasdasdasdasbutthead@gmail.com",
+                    Password = "1231232",
+                    Role = Domain.Enums.Role.Medic
+                }
+            };
         }
     }
 }
