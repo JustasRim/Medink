@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Services;
 
-internal class PatientService : IPatientService
+public class PatientService : IPatientService
 {
     private readonly IApplicationDbContext _context;
 
@@ -29,7 +29,8 @@ internal class PatientService : IPatientService
 
     public async Task<int> Delete(int id)
     {
-        _context.Patients.Remove(new Patient { Id = id });
+        var patient = _context.Patients.Where(p => p.Id == id).FirstOrDefault();
+        _context.Patients.Remove(patient);
         return await _context.SaveChangesAsync();
     }
 

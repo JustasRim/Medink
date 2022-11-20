@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Services
 {
-    internal class SymptomService : ISymptomService
+    public class SymptomService : ISymptomService
     {
         private readonly IApplicationDbContext _context;
 
@@ -29,7 +29,8 @@ namespace Infrastructure.Services
 
         public async Task<int> Delete(int id)
         {
-            _context.Symptoms.Remove(new Symptom { Id = id });
+            var symptom = _context.Symptoms.Where(s => s.Id == id).FirstOrDefault();
+            _context.Symptoms.Remove(symptom);
             return await _context.SaveChangesAsync();
         }
 
