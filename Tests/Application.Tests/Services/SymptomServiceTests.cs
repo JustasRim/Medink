@@ -18,6 +18,12 @@ namespace Application.Tests.Services
             Name = "Name",
             Description = "Description",
         };
+        private Symptom symptom2 = new Symptom()
+        {
+            Id = 2,
+            Name = "Name2",
+            Description = "Description2",
+        };
 
         [Fact]
         public async void ShouldCreateNewSymptom()
@@ -51,6 +57,19 @@ namespace Application.Tests.Services
         }
 
         [Fact]
+        public async void ShouldGetSymptoms()
+        {
+            SymptomService symptomService = new SymptomService(context);
+
+            context.Symptoms.Add(symptom);
+            context.Symptoms.Add(symptom2);
+            await context.SaveChangesAsync();
+            var symptoms = symptomService.Get().Result;
+            Assert.True(symptoms.Contains(symptom));
+            Assert.True(symptoms.Contains(symptom2));
+        }
+
+        [Fact]
         public async void ShouldUpdateSymptom()
         {
             SymptomService symptomService = new SymptomService(context);
@@ -62,6 +81,15 @@ namespace Application.Tests.Services
             await symptomService.Update(symptom);
             var updatedSymptom = context.Symptoms.Where(x => x.Id == 1).FirstOrDefault();
             Assert.True(updatedSymptom.Description.Equals(description));
+        }
+
+        [Fact]
+        public async void ReturnNullWhenSymptomToUpdateNull()
+        {
+            SymptomService symptomService = new SymptomService(context);
+
+            var result = await symptomService.Update(symptom);
+            Assert.True(result == null);
         }
     }
 }
