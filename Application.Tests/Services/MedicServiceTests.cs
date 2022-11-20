@@ -30,6 +30,17 @@ namespace Application.Tests.Services
         }
 
         [Fact]
+        public async void ShouldDeleteMedic()
+        {
+            MedicService medicService = new MedicService(context);
+
+            context.Medics.Add(medic);
+            await context.SaveChangesAsync();
+            await medicService.Delete(1);
+            Assert.True(!context.Medics.Contains(medic));
+        }
+
+        [Fact]
         public async void ShouldGetMedic()
         {
             MedicService medicService = new MedicService(context);
@@ -49,7 +60,7 @@ namespace Application.Tests.Services
             await context.SaveChangesAsync();
             string number = "37063218822";
             medic.Number = number;
-            medicService.Update(medic);
+            await medicService.Update(medic);
             var updatedMedic = context.Medics.Where(x => x.Id == 1).FirstOrDefault();
             Assert.True(updatedMedic.Number.Equals(number));
         }
