@@ -219,6 +219,16 @@ for (i = 0, l = charts.length; i < l; i++) {
 
 var assemblies = [
   {
+    "name": "api",
+    "classes": [
+      { "name": "api.Attributes.AuthorizeRoles", "rp": "api_AuthorizeRoles.html", "cl": 5, "ucl": 0, "cal": 5, "tl": 14, "ct": "LineCoverage", "cbm": "-", "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [] },
+      { "name": "api.Controllers.AuthenticationController", "rp": "api_AuthenticationController.html", "cl": 21, "ucl": 0, "cal": 21, "tl": 49, "ct": "LineCoverage", "cbm": "-", "cb": 4, "tb": 4, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [] },
+      { "name": "api.Controllers.MedicController", "rp": "api_MedicController.html", "cl": 0, "ucl": 38, "cal": 38, "tl": 86, "ct": "LineCoverage", "cbm": "-", "cb": 0, "tb": 12, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [] },
+      { "name": "api.Controllers.PatientController", "rp": "api_PatientController.html", "cl": 0, "ucl": 30, "cal": 30, "tl": 72, "ct": "LineCoverage", "cbm": "-", "cb": 0, "tb": 8, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [] },
+      { "name": "api.Controllers.SymptomController", "rp": "api_SymptomController.html", "cl": 0, "ucl": 30, "cal": 30, "tl": 72, "ct": "LineCoverage", "cbm": "-", "cb": 0, "tb": 8, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [] },
+      { "name": "api.Program", "rp": "api_Program.html", "cl": 70, "ucl": 1, "cal": 71, "tl": 95, "ct": "LineCoverage", "cbm": "-", "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [] },
+    ]},
+  {
     "name": "Application",
     "classes": [
     ]},
@@ -226,23 +236,23 @@ var assemblies = [
     "name": "Domain",
     "classes": [
       { "name": "Domain.Common.BaseEntity", "rp": "Domain_BaseEntity.html", "cl": 1, "ucl": 0, "cal": 1, "tl": 7, "ct": "LineCoverage", "cbm": "-", "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [] },
-      { "name": "Domain.Dtos.LoginUserDto", "rp": "Domain_LoginUserDto.html", "cl": 0, "ucl": 2, "cal": 2, "tl": 16, "ct": "LineCoverage", "cbm": "-", "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [] },
-      { "name": "Domain.Dtos.RegisterUserDto", "rp": "Domain_RegisterUserDto.html", "cl": 0, "ucl": 3, "cal": 3, "tl": 19, "ct": "LineCoverage", "cbm": "-", "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [] },
+      { "name": "Domain.Dtos.LoginUserDto", "rp": "Domain_LoginUserDto.html", "cl": 2, "ucl": 0, "cal": 2, "tl": 16, "ct": "LineCoverage", "cbm": "-", "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [] },
+      { "name": "Domain.Dtos.RegisterUserDto", "rp": "Domain_RegisterUserDto.html", "cl": 3, "ucl": 0, "cal": 3, "tl": 19, "ct": "LineCoverage", "cbm": "-", "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [] },
       { "name": "Domain.Dtos.TokenDto", "rp": "Domain_TokenDto.html", "cl": 2, "ucl": 0, "cal": 2, "tl": 8, "ct": "LineCoverage", "cbm": "-", "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [] },
-      { "name": "Domain.Entities.Medic", "rp": "Domain_Medic.html", "cl": 4, "ucl": 1, "cal": 5, "tl": 26, "ct": "LineCoverage", "cbm": "-", "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [] },
-      { "name": "Domain.Entities.Patient", "rp": "Domain_Patient.html", "cl": 5, "ucl": 2, "cal": 7, "tl": 30, "ct": "LineCoverage", "cbm": "-", "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [] },
-      { "name": "Domain.Entities.Symptom", "rp": "Domain_Symptom.html", "cl": 3, "ucl": 1, "cal": 4, "tl": 19, "ct": "LineCoverage", "cbm": "-", "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [] },
+      { "name": "Domain.Entities.Medic", "rp": "Domain_Medic.html", "cl": 5, "ucl": 0, "cal": 5, "tl": 26, "ct": "LineCoverage", "cbm": "-", "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [] },
+      { "name": "Domain.Entities.Patient", "rp": "Domain_Patient.html", "cl": 7, "ucl": 0, "cal": 7, "tl": 30, "ct": "LineCoverage", "cbm": "-", "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [] },
+      { "name": "Domain.Entities.Symptom", "rp": "Domain_Symptom.html", "cl": 4, "ucl": 0, "cal": 4, "tl": 19, "ct": "LineCoverage", "cbm": "-", "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [] },
       { "name": "Domain.Entities.User", "rp": "Domain_User.html", "cl": 3, "ucl": 0, "cal": 3, "tl": 14, "ct": "LineCoverage", "cbm": "-", "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [] },
     ]},
   {
     "name": "Infrastructure",
     "classes": [
       { "name": "Infrastructure.Helpers.AuthHelper", "rp": "Infrastructure_AuthHelper.html", "cl": 27, "ucl": 0, "cal": 27, "tl": 48, "ct": "LineCoverage", "cbm": "-", "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [] },
-      { "name": "Infrastructure.Services.AuthService", "rp": "Infrastructure_AuthService.html", "cl": 0, "ucl": 56, "cal": 56, "tl": 95, "ct": "LineCoverage", "cbm": "-", "cb": 0, "tb": 14, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [] },
-      { "name": "Infrastructure.Services.MedicService", "rp": "Infrastructure_MedicService.html", "cl": 27, "ucl": 24, "cal": 51, "tl": 86, "ct": "LineCoverage", "cbm": "-", "cb": 1, "tb": 12, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [] },
-      { "name": "Infrastructure.Services.PatientService", "rp": "Infrastructure_PatientService.html", "cl": 28, "ucl": 8, "cal": 36, "tl": 65, "ct": "LineCoverage", "cbm": "-", "cb": 1, "tb": 2, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [] },
-      { "name": "Infrastructure.Services.SymptomService", "rp": "Infrastructure_SymptomService.html", "cl": 26, "ucl": 8, "cal": 34, "tl": 64, "ct": "LineCoverage", "cbm": "-", "cb": 1, "tb": 2, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [] },
-      { "name": "Microsoft.Extensions.DependencyInjection.DependencyInjection", "rp": "Infrastructure_DependencyInjection.html", "cl": 0, "ucl": 12, "cal": 12, "tl": 32, "ct": "LineCoverage", "cbm": "-", "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [] },
+      { "name": "Infrastructure.Services.AuthService", "rp": "Infrastructure_AuthService.html", "cl": 52, "ucl": 4, "cal": 56, "tl": 95, "ct": "LineCoverage", "cbm": "-", "cb": 11, "tb": 14, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [] },
+      { "name": "Infrastructure.Services.MedicService", "rp": "Infrastructure_MedicService.html", "cl": 48, "ucl": 3, "cal": 51, "tl": 86, "ct": "LineCoverage", "cbm": "-", "cb": 10, "tb": 12, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [] },
+      { "name": "Infrastructure.Services.PatientService", "rp": "Infrastructure_PatientService.html", "cl": 33, "ucl": 3, "cal": 36, "tl": 65, "ct": "LineCoverage", "cbm": "-", "cb": 2, "tb": 2, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [] },
+      { "name": "Infrastructure.Services.SymptomService", "rp": "Infrastructure_SymptomService.html", "cl": 31, "ucl": 3, "cal": 34, "tl": 64, "ct": "LineCoverage", "cbm": "-", "cb": 2, "tb": 2, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [] },
+      { "name": "Microsoft.Extensions.DependencyInjection.DependencyInjection", "rp": "Infrastructure_DependencyInjection.html", "cl": 12, "ucl": 0, "cal": 12, "tl": 31, "ct": "LineCoverage", "cbm": "-", "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [] },
     ]},
 ];
 

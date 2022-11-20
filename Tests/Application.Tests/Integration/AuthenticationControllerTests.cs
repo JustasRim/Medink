@@ -4,37 +4,39 @@ using Domain.Dtos;
 using Infrastructure.Persistence;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
-using System.Xml.Linq;
 
 namespace Application.Tests.Integration
 {
     public class AuthenticationControllerTests
     {
-        private readonly WebApplicationFactory<Program> _clientFactory;
+        private readonly HttpClient _client;
 
         public AuthenticationControllerTests()
         {
-            _clientFactory = new WebApplicationFactory<Program>()
+            var root = new InMemoryDatabaseRoot();
+            _client = new WebApplicationFactory<Program>()
                .WithWebHostBuilder(builder =>
                {
                    builder.ConfigureServices(services =>
                    {
                        services.RemoveAll(typeof(DbContextOptions<ApplicationDbContext>));
 
-                       services.AddDbContext<ApplicationDbContext>(options => options.UseInMemoryDatabase(Guid.NewGuid().ToString()));
+                       services.AddDbContext<ApplicationDbContext>(options => options.UseInMemoryDatabase("test", root));
                        services.AddScoped<IApplicationDbContext>(q => q.GetRequiredService<ApplicationDbContext>());
                    });
-               });
+               })
+               .CreateClient();
         }
 
         [Fact]
         public async void When_SignIn_Expect_JWTToken()
         {
-            var client = _clientFactory.CreateClient();
-            var response = await client.PostAsJsonAsync("api/v1/Authentication/sign-up",
+            var response = await _client.PostAsJsonAsync("api/v1/Authentication/sign-up",
                 new RegisterUserDto()
                 {
                     Name = "Butthead",
@@ -53,9 +55,7 @@ namespace Application.Tests.Integration
         [MemberData(nameof(GetRegisterUserDtoDataGenerator))]
         public async void When_SignIn_Expect_SuccsessfullLogin(RegisterUserDto dto)
         {
-            var client = _clientFactory.CreateClient();
-
-            var response = await client.PostAsJsonAsync("api/v1/Authentication/sign-up", dto);
+            var response = await _client.PostAsJsonAsync("api/v1/Authentication/sign-up", dto);
             var registeResponse = await response.Content.ReadFromJsonAsync<TokenDto>();
 
             Assert.True(response.IsSuccessStatusCode);
@@ -66,7 +66,6 @@ namespace Application.Tests.Integration
         [Fact]
         public async void When_SignInAsAdmin_Expect_BadRequest()
         {
-            var client = _clientFactory.CreateClient();
             var registerDto = new RegisterUserDto()
             {
                 Name = "Butthead",
@@ -76,7 +75,40 @@ namespace Application.Tests.Integration
                 Role = Domain.Enums.Role.Admin
             };
 
-            var response = await client.PostAsJsonAsync("api/v1/Authentication/sign-up", registerDto);
+            var response = await _client.PostAsJsonAsync("api/v1/Authentication/sign-up", registerDto);
+            Assert.True(response.StatusCode == System.Net.HttpStatusCode.BadRequest);
+        }
+
+        [Theory]
+        [MemberData(nameof(GetLoginUserDtoDataGenerator))]
+        public async void When_UserIsNotLoggedIn_Expect_Unothorized(LoginUserDto dto)
+        {
+            var response = await _client.PostAsJsonAsync("api/v1/Authentication/login", dto);
+            Assert.True(response.StatusCode == System.Net.HttpStatusCode.Unauthorized);
+        }
+
+        [Theory]
+        [MemberData(nameof(GetLoginUserDtoDataGenerator))]
+        public async void When_LoginDataOk_Expect_Success(LoginUserDto dto)
+        {
+            var reg = new RegisterUserDto
+            {
+                Email = dto.Email,
+                Password = dto.Password,
+                LastName = "asd",
+                Name = "dsa",
+                Role = Domain.Enums.Role.Patient
+            }; 
+
+            var signUpResponse = await _client.PostAsJsonAsync("api/v1/Authentication/sign-up", reg);
+            var response = await _client.PostAsJsonAsync("api/v1/Authentication/login", dto);
+            Assert.True(response.StatusCode == System.Net.HttpStatusCode.OK);
+        }
+
+        [Fact]
+        public async void When_UserIsNull_Excpect_BadRequest()
+        {
+            var response = await _client.PostAsJsonAsync("api/v1/Authentication/login", new LoginUserDto());
             Assert.True(response.StatusCode == System.Net.HttpStatusCode.BadRequest);
         }
 
@@ -114,7 +146,37 @@ namespace Application.Tests.Integration
                     LastName = "dasdasdasdSADASdasdasdasdasasda",
                     Email = "asdasdasdasdasdasdasdasdasbutthead@gmail.com",
                     Password = "1231232",
-                    Role = Domain.Enums.Role.Medic
+                    Role = Domain.Enums.Role.Patient
+                }
+            };
+        }
+
+        public static IEnumerable<object[]> GetLoginUserDtoDataGenerator()
+        {
+            yield return new object[]
+            {
+                new LoginUserDto
+                {
+                    Email = "butthead@gmail.com",
+                    Password = "1231232"
+                }
+            };
+
+            yield return new object[]
+            {
+                new LoginUserDto
+                {
+                    Email = "asdasdasdasdasdasdasdasdasbutthead@gmail.com",
+                    Password = "1231232"
+                }
+            };
+
+            yield return new object[]
+            {
+                new LoginUserDto
+                {
+                    Email = "asdasdasdasdasdasdasdasdasbutthead@gmail.com",
+                    Password = "1231232"
                 }
             };
         }
