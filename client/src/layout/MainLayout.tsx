@@ -7,7 +7,7 @@ type Props = {
 };
 
 const MainLayout = ({ children }: Props) => {
-  const [expanding, setExpanding] = useState(true);
+  const [expaned, setExpaned] = useState(false);
 
   return (
     <div className="app">
@@ -24,8 +24,8 @@ const MainLayout = ({ children }: Props) => {
           </Link>
         </div>
         <div
-          className={`hamburger${expanding ? "" : " hamburger--expanding"}`}
-          onClick={() => setExpanding((curr) => !curr)}
+          className={`hamburger${expaned ? "" : " hamburger--expaned"}`}
+          onClick={() => setExpaned((curr) => !curr)}
           aria-label="open the menu"
         >
           <span className="hamburger__top"></span>

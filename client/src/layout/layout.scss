@@ -1,8 +1,12 @@
 @use "../styles/_variables" as *;
 
+html,
+body {
+  overflow-x: hidden;
+}
+
 body {
   background-color: #fcfcfc;
-  overflow-x: hidden;
 }
 
 .header {
@@ -30,7 +34,7 @@ body {
   margin: 1.25rem 1rem;
   transition: 200ms ease;
 
-  &--expanding {
+  &--expaned {
     .hamburger__top {
       transform: translateY(calc(0.25rem + 3px)) rotate(45deg);
     }

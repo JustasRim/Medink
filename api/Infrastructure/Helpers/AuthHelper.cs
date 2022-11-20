@@ -9,7 +9,7 @@ using System.Text;
 
 namespace Infrastructure.Helpers
 {
-    internal class AuthHelper : IAuthHelper
+    public class AuthHelper : IAuthHelper
     {
         private readonly IConfiguration _configuration;
 
