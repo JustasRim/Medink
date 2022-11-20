@@ -19,6 +19,13 @@ namespace Application.Tests.Services
             LastName = "Surname",
             Email = "test@email.com"
         };
+        private Medic medic2 = new Medic()
+        {
+            Id = 2,
+            Name = "Name2",
+            LastName = "Surname2",
+            Email = "test2@email.com"
+        };
 
         [Fact]
         public async void ShouldCreateNewMedic()
@@ -52,6 +59,19 @@ namespace Application.Tests.Services
         }
 
         [Fact]
+        public async void ShouldGetMedics()
+        {
+            MedicService medicService = new MedicService(context);
+
+            context.Medics.Add(medic);
+            context.Medics.Add(medic2);
+            await context.SaveChangesAsync();
+            var symptoms = medicService.Get().Result;
+            Assert.True(symptoms.Contains(medic));
+            Assert.True(symptoms.Contains(medic2));
+        }
+
+        [Fact]
         public async void ShouldUpdateMedic()
         {
             MedicService medicService = new MedicService(context);
@@ -63,6 +83,15 @@ namespace Application.Tests.Services
             await medicService.Update(medic);
             var updatedMedic = context.Medics.Where(x => x.Id == 1).FirstOrDefault();
             Assert.True(updatedMedic.Number.Equals(number));
+        }
+
+        [Fact]
+        public async void ReturnNullWhenMedicToUpdateNull()
+        {
+            MedicService medicService = new MedicService(context);
+
+            var result = await medicService.Update(medic);
+            Assert.True(result == null);
         }
     }
 }

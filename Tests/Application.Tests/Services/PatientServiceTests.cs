@@ -19,6 +19,13 @@ namespace Application.Tests.Services
             LastName = "Surname",
             Email = "test@email.com"
         };
+        private Patient patient2 = new Patient()
+        {
+            Id = 2,
+            Name = "Name2",
+            LastName = "Surname2",
+            Email = "test2@email.com"
+        };
 
         [Fact]
         public async void ShouldCreateNewPatient()
@@ -52,6 +59,19 @@ namespace Application.Tests.Services
         }
 
         [Fact]
+        public async void ShouldGetPatients()
+        {
+            PatientService patientService = new PatientService(context);
+
+            context.Patients.Add(patient);
+            context.Patients.Add(patient2);
+            await context.SaveChangesAsync();
+            var symptoms = patientService.Get().Result;
+            Assert.True(symptoms.Contains(patient));
+            Assert.True(symptoms.Contains(patient2));
+        }
+
+        [Fact]
         public async void ShouldUpdatePatient()
         {
             PatientService patientService = new PatientService(context);
@@ -63,6 +83,15 @@ namespace Application.Tests.Services
             await patientService.Update(patient);
             var updatedPatient = context.Patients.Where(x => x.Id == 1).FirstOrDefault();
             Assert.True(updatedPatient.Number.Equals(number));
+        }
+
+        [Fact]
+        public async void ReturnNullWhenPatientToUpdateNull()
+        {
+            PatientService patientService = new PatientService(context);
+
+            var result = await patientService.Update(patient);
+            Assert.True(result == null);
         }
     }
 }
