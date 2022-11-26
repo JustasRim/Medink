@@ -5,9 +5,11 @@ body {
 }
 
 * {
+  transition: 150ms all ease-in;
   box-sizing: border-box;
 }
 
 a {
   text-decoration: none;
+  color: black;
 }

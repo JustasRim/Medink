@@ -36,7 +36,7 @@ const Login = () => {
       justifyContent="center"
       alignItems="center"
       flexDirection="column"
-      minHeight="100vh"
+      marginTop={10}
     >
       <Typography variant="h1" sx={{ mb: 3 }}>
         Log in
