@@ -93,6 +93,11 @@ body {
   }
 }
 
+.main {
+  margin: 0 auto;
+  width: min(80%, 1340px);
+}
+
 @media screen and (max-width: $small-screen) {
   .hamburger {
     display: block;

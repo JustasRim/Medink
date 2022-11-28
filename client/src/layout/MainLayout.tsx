@@ -72,7 +72,7 @@ const MainLayout = ({ children }: Props) => {
         </nav>
       </div>
 
-      {children}
+      <main className="main">{children}</main>
       <footer></footer>
     </div>
   );

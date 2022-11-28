@@ -14,6 +14,14 @@ declare module "@mui/material/styles" {
 }
 
 const main = createTheme({
+  palette: {
+    primary: {
+      main: "#fa8072",
+    },
+    secondary: {
+      main: "#72ecfa",
+    },
+  },
   typography: {
     fontSize: 12,
     h1: {
