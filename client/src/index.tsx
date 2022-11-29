@@ -1,26 +1,31 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import App from "./App";
-import reportWebVitals from "./reportWebVitals";
-import { BrowserRouter } from "react-router-dom";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import "./styles/reset.scss";
-import { ThemeProvider } from "@mui/material/styles";
-import main from "./themes/Main";
+import React, { createContext } from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './App';
+import reportWebVitals from './reportWebVitals';
+import { BrowserRouter } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import './styles/reset.scss';
+import { ThemeProvider } from '@mui/material/styles';
+import main from './themes/Main';
+import UserContextProvider from './components/UserContext';
 
 const root = ReactDOM.createRoot(
-  document.getElementById("root") as HTMLElement
+  document.getElementById('root') as HTMLElement
 );
 
 const queryClient = new QueryClient();
+
+const Context = createContext({});
 
 root.render(
   <React.StrictMode>
     <BrowserRouter>
       <QueryClientProvider client={queryClient}>
         <ThemeProvider theme={main}>
-          <App />
+          <UserContextProvider>
+            <App />
+          </UserContextProvider>
         </ThemeProvider>
         <ReactQueryDevtools />
       </QueryClientProvider>

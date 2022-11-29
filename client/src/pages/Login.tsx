@@ -1,9 +1,10 @@
-import { useForm } from "react-hook-form";
-import * as yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
-import ax from "../utilities/Axios";
-import { Box, TextField, Button, Typography, useTheme } from "@mui/material";
-import { Link } from "react-router-dom";
+import { useForm } from 'react-hook-form';
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
+import ax from '../utilities/Axios';
+import { Box, TextField, Button, Typography, useTheme } from '@mui/material';
+import { Link } from 'react-router-dom';
+import { useUser } from '../components/UserContext';
 
 const schema = yup.object().shape({
   email: yup.string().email().required(),
@@ -24,12 +25,17 @@ const Login = () => {
     resolver: yupResolver(schema),
   });
 
+  const user = useUser();
+
   const theme = useTheme();
 
   const onSubmit = async (data: inputs) => {
-    const response = await ax.post("/Authentication/login", data);
-    console.log(response);
+    const response = await ax.post('/Authentication/login', data);
+    if (response.status === 200) {
+      user?.login(response.data);
+    }
   };
+
   return (
     <Box
       display="flex"
@@ -45,8 +51,8 @@ const Login = () => {
         <TextField
           label="Email"
           variant="outlined"
-          {...register("email")}
-          sx={{ mb: theme.custom?.spacing?.input, width: "100%" }}
+          {...register('email')}
+          sx={{ mb: theme.custom?.spacing?.input, width: '100%' }}
           error={!!errors.email}
         />
 
@@ -54,8 +60,8 @@ const Login = () => {
           label="Password"
           type="password"
           variant="outlined"
-          {...register("password")}
-          sx={{ mb: theme.custom?.spacing?.input, width: "100%" }}
+          {...register('password')}
+          sx={{ mb: theme.custom?.spacing?.input, width: '100%' }}
           error={!!errors.password}
         />
 
