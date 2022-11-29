@@ -1,16 +1,17 @@
-import { IEntity } from "../Interfaces/IEntity";
-import Card from "@mui/material/Card";
+import { IEntity } from '../Interfaces/IEntity';
+import Card from '@mui/material/Card';
 import {
   Button,
   CardActions,
   CardContent,
   CardMedia,
   Typography,
-} from "@mui/material";
+} from '@mui/material';
+import { Link } from 'react-router-dom';
 
-const EntityCard = ({ name, lastName }: IEntity) => {
+const EntityCard = ({ name, lastName, id }: IEntity) => {
   return (
-    <Card sx={{ maxWidth: "100%" }}>
+    <Card sx={{ maxWidth: '100%' }}>
       <CardMedia
         component="img"
         height="250"
@@ -23,7 +24,9 @@ const EntityCard = ({ name, lastName }: IEntity) => {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button>Learn More</Button>
+        <Link to={`doctor/${id}`} tabIndex={0}>
+          Learn More
+        </Link>
       </CardActions>
     </Card>
   );

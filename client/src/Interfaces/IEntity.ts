@@ -3,4 +3,5 @@ export interface IEntity {
   lastName: string;
   id: number;
   email: string;
+  number: string;
 }
