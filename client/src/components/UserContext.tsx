@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
 import IUser from '../Interfaces/IUser';
 
 const userContext = createContext<UserSuit | undefined>(undefined);
@@ -24,14 +24,42 @@ const UserContextProvider = ({ children }: Props) => {
       login: login,
       singOut: signOut,
     });
-    const expiration = new Date(user.expires).toUTCString();
 
+    if (!user.expires) {
+      return;
+    }
+
+    const expiration = new Date(user.expires).toUTCString();
     document.cookie = `token=${user.token};expires=${expiration}`;
   };
 
   const signOut = () => {
     document.cookie = 'token=;expires=Thu, 01 Jan 1970 00:00:00 UTC;';
   };
+
+  useEffect(() => {
+    if (user.user) {
+      return;
+    }
+
+    const token =
+      document.cookie
+        .match('(^|;)\\s*' + 'token' + '\\s*=\\s*([^;]+)')
+        ?.pop() || '';
+
+    if (!token) {
+      window.location.href = '/login';
+      return;
+    }
+
+    setUser((currentUser) => {
+      currentUser.user = {
+        token: token,
+      };
+
+      return currentUser;
+    });
+  });
 
   const [user, setUser] = useState<UserSuit>({
     login: login,

@@ -33,6 +33,7 @@ const Login = () => {
     const response = await ax.post('/Authentication/login', data);
     if (response.status === 200) {
       user?.login(response.data);
+      window.location.href = '/';
     }
   };
 
