@@ -17,7 +17,7 @@ export const useUser = () => {
   return useContext(userContext);
 };
 
-const UserContextProvider = ({ children }: Props) => {
+export const UserContextProvider = ({ children }: Props) => {
   const login = (user: IUser) => {
     setUser({
       user: user,
@@ -35,7 +35,19 @@ const UserContextProvider = ({ children }: Props) => {
 
   const signOut = () => {
     document.cookie = 'token=;expires=Thu, 01 Jan 1970 00:00:00 UTC;';
+
+    setUser({
+      login: login,
+      singOut: signOut,
+      user: undefined,
+    });
   };
+
+  const [user, setUser] = useState<UserSuit>({
+    login: login,
+    singOut: signOut,
+    user: undefined,
+  });
 
   useEffect(() => {
     if (user.user) {
@@ -48,25 +60,21 @@ const UserContextProvider = ({ children }: Props) => {
         ?.pop() || '';
 
     if (!token) {
-      window.location.href = '/login';
+      if (!window.location.pathname.includes('/login')) {
+        window.location.href = '/login';
+      }
+
       return;
     }
 
-    setUser((currentUser) => {
-      currentUser.user = {
+    setUser({
+      login: login,
+      singOut: signOut,
+      user: {
         token: token,
-      };
-
-      return currentUser;
+      },
     });
-  });
-
-  const [user, setUser] = useState<UserSuit>({
-    login: login,
-    singOut: signOut,
   });
 
   return <userContext.Provider value={user}>{children}</userContext.Provider>;
 };
-
-export default UserContextProvider;

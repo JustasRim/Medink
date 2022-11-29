@@ -8,8 +8,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import './styles/reset.scss';
 import { ThemeProvider } from '@mui/material/styles';
 import main from './themes/Main';
-import UserContextProvider from './components/UserContext';
-
+import { UserContextProvider } from './components/UserContext';
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
@@ -18,16 +17,16 @@ const queryClient = new QueryClient();
 
 root.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <QueryClientProvider client={queryClient}>
-        <ThemeProvider theme={main}>
-          <UserContextProvider>
+    <UserContextProvider>
+      <BrowserRouter>
+        <QueryClientProvider client={queryClient}>
+          <ThemeProvider theme={main}>
             <App />
-          </UserContextProvider>
-        </ThemeProvider>
-        <ReactQueryDevtools />
-      </QueryClientProvider>
-    </BrowserRouter>
+          </ThemeProvider>
+          <ReactQueryDevtools />
+        </QueryClientProvider>
+      </BrowserRouter>
+    </UserContextProvider>
   </React.StrictMode>
 );
 

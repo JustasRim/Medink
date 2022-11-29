@@ -26,7 +26,6 @@ const Login = () => {
   });
 
   const user = useUser();
-
   const theme = useTheme();
 
   const onSubmit = async (data: inputs) => {

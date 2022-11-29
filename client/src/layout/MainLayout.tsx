@@ -1,5 +1,7 @@
+import { Button } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useUser } from '../components/UserContext';
 import './layout.scss';
 
 type Props = {
@@ -9,9 +11,11 @@ type Props = {
 const MainLayout = ({ children }: Props) => {
   const [expanded, setExpanded] = useState(false);
 
+  const userSuit = useUser();
+  console.log(userSuit?.user?.token);
+
   useEffect(() => {
     window.addEventListener('resize', onResize);
-
     return () => {
       window.removeEventListener('resize', onResize);
     };
@@ -30,6 +34,10 @@ const MainLayout = ({ children }: Props) => {
     }
   };
 
+  const signOut = () => {
+    userSuit?.singOut();
+  };
+
   return (
     <div className="app">
       <header className="header">
@@ -40,9 +48,19 @@ const MainLayout = ({ children }: Props) => {
           <Link className="header__link" to="/sign-up" tabIndex={0}>
             Register
           </Link>
-          <Link className="header__link" to="/login" tabIndex={0}>
-            Login
-          </Link>
+          {!userSuit?.user ? (
+            <Link className="header__link" to="/login" tabIndex={0}>
+              Login
+            </Link>
+          ) : (
+            <Button
+              color="secondary"
+              className="header__link"
+              onClick={signOut}
+            >
+              Sign out
+            </Button>
+          )}
         </nav>
         <div
           className={`hamburger${expanded ? ' hamburger--expanded' : ''}`}
