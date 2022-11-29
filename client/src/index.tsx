@@ -16,8 +16,6 @@ const root = ReactDOM.createRoot(
 
 const queryClient = new QueryClient();
 
-const Context = createContext({});
-
 root.render(
   <React.StrictMode>
     <BrowserRouter>

@@ -1,12 +1,6 @@
 import { IEntity } from '../Interfaces/IEntity';
 import Card from '@mui/material/Card';
-import {
-  Button,
-  CardActions,
-  CardContent,
-  CardMedia,
-  Typography,
-} from '@mui/material';
+import { CardActions, CardContent, CardMedia, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 
 const EntityCard = ({ name, lastName, id }: IEntity) => {
