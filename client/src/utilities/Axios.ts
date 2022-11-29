@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig } from 'axios';
+import axios from 'axios';
 
 const getToken = () =>
   document.cookie.match('(^|;)\\s*token\\s*=\\s*([^;]+)')?.pop() || '';
