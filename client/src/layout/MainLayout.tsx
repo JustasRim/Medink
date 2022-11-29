@@ -59,19 +59,20 @@ const MainLayout = ({ children }: Props) => {
         </div>
       </header>
       <div className={`sidebar${expanded ? " sidebar--expanded" : ""}`}>
-        <nav className="sidebar__nav">
-          <Link className="sidebar__link" to="/" tabIndex={0}>
-            Home
-          </Link>
-          <Link className="sidebar__link" to="/sign-up" tabIndex={0}>
-            Register
-          </Link>
-          <Link className="sidebar__link" to="/login" tabIndex={0}>
-            Login
-          </Link>
-        </nav>
+        <div className="sidebar__bar">
+          <nav className="sidebar__nav">
+            <Link className="sidebar__link" to="/" tabIndex={0}>
+              Home
+            </Link>
+            <Link className="sidebar__link" to="/sign-up" tabIndex={0}>
+              Register
+            </Link>
+            <Link className="sidebar__link" to="/login" tabIndex={0}>
+              Login
+            </Link>
+          </nav>
+        </div>
       </div>
-
       <main className="main">{children}</main>
       <footer></footer>
     </div>
