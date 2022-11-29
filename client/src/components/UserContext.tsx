@@ -35,7 +35,6 @@ export const UserContextProvider = ({ children }: Props) => {
 
   const signOut = () => {
     document.cookie = 'token=;expires=Thu, 01 Jan 1970 00:00:00 UTC;';
-
     setUser({
       login: login,
       singOut: signOut,
