@@ -9,6 +9,7 @@ import './styles/reset.scss';
 import { ThemeProvider } from '@mui/material/styles';
 import main from './themes/Main';
 import { UserContextProvider } from './components/UserContext';
+
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );

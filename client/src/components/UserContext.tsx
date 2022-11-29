@@ -72,7 +72,7 @@ export const UserContextProvider = ({ children }: Props) => {
         token: token,
       },
     });
-  }, [user.user]);
+  }, [user.user, login, signOut]);
 
   return <userContext.Provider value={user}>{children}</userContext.Provider>;
 };
