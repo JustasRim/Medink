@@ -17,34 +17,34 @@ export const useUser = () => {
   return useContext(userContext);
 };
 
-export const UserContextProvider = ({ children }: Props) => {
-  const login = (user: IUser) => {
-    setUser({
-      user: user,
-      login: login,
-      singOut: signOut,
-    });
-
-    if (!user.expires) {
-      return;
-    }
-
-    const expiration = new Date(user.expires).toUTCString();
-    document.cookie = `token=${user.token};expires=${expiration}`;
-  };
-
-  const signOut = () => {
-    document.cookie = 'token=;expires=Thu, 01 Jan 1970 00:00:00 UTC;';
-    setUser({
-      login: login,
-      singOut: signOut,
-      user: undefined,
-    });
-  };
-
-  const [user, setUser] = useState<UserSuit>({
+const login = (user: IUser, setUser: Function) => {
+  setUser({
+    user: user,
     login: login,
     singOut: signOut,
+  });
+
+  if (!user.expires) {
+    return;
+  }
+
+  const expiration = new Date(user.expires).toUTCString();
+  document.cookie = `token=${user.token};expires=${expiration}`;
+};
+
+const signOut = (setUser: Function) => {
+  document.cookie = 'token=;expires=Thu, 01 Jan 1970 00:00:00 UTC;';
+  setUser({
+    login: login,
+    singOut: signOut,
+    user: undefined,
+  });
+};
+
+export const UserContextProvider = ({ children }: Props) => {
+  const [user, setUser] = useState<UserSuit>({
+    login: (usr: IUser) => login(usr, setUser),
+    singOut: () => signOut(setUser),
     user: undefined,
   });
 
@@ -66,12 +66,12 @@ export const UserContextProvider = ({ children }: Props) => {
 
     setUser({
       login: login,
-      singOut: signOut,
+      singOut: () => signOut(setUser),
       user: {
         token: token,
       },
     });
-  }, [user.user, login, signOut]);
+  }, [user]);
 
   return <userContext.Provider value={user}>{children}</userContext.Provider>;
 };
