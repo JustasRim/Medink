@@ -55,9 +55,7 @@ export const UserContextProvider = ({ children }: Props) => {
     }
 
     const token =
-      document.cookie
-        .match('(^|;)\\s*' + 'token' + '\\s*=\\s*([^;]+)')
-        ?.pop() || '';
+      document.cookie.match('(^|;)\\s*token\\s*=\\s*([^;]+)')?.pop() || '';
 
     if (!token) {
       if (!window.location.pathname.includes('/login')) {
@@ -74,7 +72,7 @@ export const UserContextProvider = ({ children }: Props) => {
         token: token,
       },
     });
-  });
+  }, [user.user]);
 
   return <userContext.Provider value={user}>{children}</userContext.Provider>;
 };
