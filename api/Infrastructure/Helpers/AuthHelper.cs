@@ -41,6 +41,7 @@ namespace Infrastructure.Helpers
             return new TokenDto 
             {
                 Token = new JwtSecurityTokenHandler().WriteToken(token),
+                Role = user.Role,
                 Expires = token.ValidTo
             };
         }

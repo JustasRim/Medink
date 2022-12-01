@@ -44,6 +44,11 @@ namespace Infrastructure.Services
             return await _context.Symptoms.FirstOrDefaultAsync(q => q.Id == id);
         }
 
+        public Symptom? Get(Func<Symptom, bool> predicate)
+        {
+            return _context.Symptoms.FirstOrDefault(predicate);
+        }
+
         public async Task<Symptom?> Update(Symptom symptom)
         {
             var symptomToUpdate = await _context.Symptoms.FirstOrDefaultAsync(q => q.Id == symptom.Id);

@@ -1,7 +1,7 @@
-import { Button } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useUser } from '../components/UserContext';
+import { Role } from '../utilities/Enums';
 import './layout.scss';
 
 type Props = {
@@ -12,7 +12,6 @@ const MainLayout = ({ children }: Props) => {
   const [expanded, setExpanded] = useState(false);
 
   const userSuit = useUser();
-  console.log(userSuit?.user?.token);
 
   useEffect(() => {
     window.addEventListener('resize', onResize);
@@ -23,6 +22,7 @@ const MainLayout = ({ children }: Props) => {
 
   const onResize = () => {
     if (window.innerWidth <= 600) {
+      return;
     }
 
     setExpanded(() => false);
@@ -45,6 +45,11 @@ const MainLayout = ({ children }: Props) => {
           <Link className="header__link" to="/" tabIndex={0}>
             Home
           </Link>
+          {userSuit?.user?.role === Role.Admin && (
+            <Link className="header__link" to="/admin">
+              Admin
+            </Link>
+          )}
           <Link className="header__link" to="/sign-up" tabIndex={0}>
             Register
           </Link>
@@ -53,13 +58,13 @@ const MainLayout = ({ children }: Props) => {
               Login
             </Link>
           ) : (
-            <Button
+            <button
               color="secondary"
               className="header__link"
               onClick={signOut}
             >
               Sign out
-            </Button>
+            </button>
           )}
         </nav>
         <div
@@ -75,7 +80,10 @@ const MainLayout = ({ children }: Props) => {
           <span className="hamburger__bottom"></span>
         </div>
       </header>
-      <div className={`sidebar${expanded ? ' sidebar--expanded' : ''}`}>
+      <div
+        className={`sidebar${expanded ? ' sidebar--expanded' : ''}`}
+        onClick={() => setExpanded(false)}
+      >
         <div className="sidebar__bar">
           <nav className="sidebar__nav">
             <Link className="sidebar__link" to="/" tabIndex={0}>
@@ -84,9 +92,19 @@ const MainLayout = ({ children }: Props) => {
             <Link className="sidebar__link" to="/sign-up" tabIndex={0}>
               Register
             </Link>
-            <Link className="sidebar__link" to="/login" tabIndex={0}>
-              Login
-            </Link>
+            {!userSuit?.user ? (
+              <Link className="sidebar__link" to="/login" tabIndex={0}>
+                Login
+              </Link>
+            ) : (
+              <button
+                color="secondary"
+                className="sidebar__link"
+                onClick={signOut}
+              >
+                Sign out
+              </button>
+            )}
           </nav>
         </div>
       </div>

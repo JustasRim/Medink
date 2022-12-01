@@ -1,7 +1,5 @@
 import axios from 'axios';
-
-const getToken = () =>
-  document.cookie.match('(^|;)\\s*token\\s*=\\s*([^;]+)')?.pop() || '';
+import { getCookie } from './CookieManager';
 
 const ax = axios.create({
   baseURL: 'https://localhost:7222/api/v1',
@@ -14,7 +12,7 @@ ax.interceptors.request.use((config) => {
     );
   }
 
-  const token = getToken();
+  const token = getCookie('token');
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }

@@ -44,6 +44,11 @@ public class MedicService : IMedicService
         return await _context.Medics.ToListAsync();
     }
 
+    public Medic? Get(Func<Medic, bool> predicate)
+    {
+        return _context.Medics.FirstOrDefault(predicate);
+    }
+
     public async Task<Medic?> Update(Medic medic)
     {
         var medicToUpdate = await _context.Medics.FirstOrDefaultAsync(q => q.Id == medic.Id);

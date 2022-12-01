@@ -1,6 +1,7 @@
 ﻿using Application.Helpers;
 using Application.Services;
 using Domain.Dtos;
+using Domain.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,11 +14,15 @@ namespace api.Controllers
     {
         private readonly IAuthService _authService;
         private readonly IAuthHelper _authHelper;
+        private readonly IMedicService _medicService;
+        private readonly IPatientService _patientService;
 
-        public AuthenticationController(IAuthService authService, IAuthHelper authHelper )
+        public AuthenticationController(IAuthService authService, IAuthHelper authHelper, IMedicService medicService, IPatientService patientService)
         {
             _authService = authService;
             _authHelper = authHelper;
+            _medicService = medicService;
+            _patientService = patientService;   
         }
 
         [HttpPost("login")]

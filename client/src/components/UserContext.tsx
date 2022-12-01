@@ -1,7 +1,8 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import IUser from '../Interfaces/IUser';
+import { getCookie } from '../utilities/CookieManager';
 
-const userContext = createContext<UserSuit | undefined>(undefined);
+const userSuitContext = createContext<UserSuit | undefined>(undefined);
 
 type Props = {
   children: React.ReactNode;
@@ -14,11 +15,11 @@ type UserSuit = {
 };
 
 export const useUser = () => {
-  return useContext(userContext);
+  return useContext(userSuitContext);
 };
 
-const login = (user: IUser, setUser: Function) => {
-  setUser({
+const login = (user: IUser, setUserSuit: Function) => {
+  setUserSuit({
     user: user,
     login: login,
     singOut: signOut,
@@ -30,11 +31,13 @@ const login = (user: IUser, setUser: Function) => {
 
   const expiration = new Date(user.expires).toUTCString();
   document.cookie = `token=${user.token};expires=${expiration}`;
+  document.cookie = `role=${user.role};expires=${expiration}`;
 };
 
-const signOut = (setUser: Function) => {
+const signOut = (setUserSuit: Function) => {
   document.cookie = 'token=;expires=Thu, 01 Jan 1970 00:00:00 UTC;';
-  setUser({
+  document.cookie = 'role=;expires=Thu, 01 Jan 1970 00:00:00 UTC;';
+  setUserSuit({
     login: login,
     singOut: signOut,
     user: undefined,
@@ -42,36 +45,36 @@ const signOut = (setUser: Function) => {
 };
 
 export const UserContextProvider = ({ children }: Props) => {
-  const [user, setUser] = useState<UserSuit>({
-    login: (usr: IUser) => login(usr, setUser),
-    singOut: () => signOut(setUser),
+  const [userSuit, setUserSuit] = useState<UserSuit>({
+    login: (usr: IUser) => login(usr, setUserSuit),
+    singOut: () => signOut(setUserSuit),
     user: undefined,
   });
 
   useEffect(() => {
-    if (user.user) {
+    if (userSuit.user) {
       return;
     }
 
-    const token =
-      document.cookie.match('(^|;)\\s*token\\s*=\\s*([^;]+)')?.pop() || '';
-
+    const token = getCookie('token');
+    const role = getCookie('role');
     if (!token) {
-      if (!window.location.pathname.includes('/login')) {
-        window.location.href = '/login';
-      }
-
       return;
     }
 
-    setUser({
+    setUserSuit({
       login: login,
-      singOut: () => signOut(setUser),
+      singOut: () => signOut(setUserSuit),
       user: {
         token: token,
+        role: role,
       },
     });
-  }, [user]);
+  }, [userSuit]);
 
-  return <userContext.Provider value={user}>{children}</userContext.Provider>;
+  return (
+    <userSuitContext.Provider value={userSuit}>
+      {children}
+    </userSuitContext.Provider>
+  );
 };

@@ -1,6 +1,6 @@
-import { createTheme } from "@mui/material/styles";
+import { createTheme } from '@mui/material/styles';
 
-declare module "@mui/material/styles" {
+declare module '@mui/material/styles' {
   interface CustomTheme {
     custom?: {
       spacing?: {
@@ -16,21 +16,27 @@ declare module "@mui/material/styles" {
 const main = createTheme({
   palette: {
     primary: {
-      main: "#fa8072",
+      main: '#fa8072',
     },
     secondary: {
-      main: "#72ecfa",
+      main: '#72ecfa',
     },
   },
   typography: {
     fontSize: 12,
     h1: {
-      fontSize: "3rem",
+      fontSize: '3rem',
+    },
+    h2: {
+      fontSize: '2rem',
+    },
+    h3: {
+      fontSize: '1rem',
     },
   },
   custom: {
     spacing: {
-      input: "1.5rem",
+      input: '1.5rem',
     },
   },
 });

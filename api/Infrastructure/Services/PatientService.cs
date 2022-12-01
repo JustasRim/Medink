@@ -44,6 +44,11 @@ public class PatientService : IPatientService
         return await _context.Patients.FirstOrDefaultAsync(q => q.Id == id);
     }
 
+    public Patient? Get(Func<Patient, bool> predicate)
+    {
+        return _context.Patients.FirstOrDefault(predicate);
+    }
+
     public async Task<Patient?> Update(Patient patient)
     {
         var patientToUpdate = await _context.Patients.FirstOrDefaultAsync(q => q.Id == patient.Id);

@@ -12,5 +12,7 @@ public interface ICrud<T>
 
     Task<T?> Get(int id);
 
+    T? Get(Func<T, bool> action);
+
     Task<int> Delete(int id);
 }
