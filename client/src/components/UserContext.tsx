@@ -19,11 +19,11 @@ export const useUser = () => {
 };
 
 const login = (user: IUser, setUserSuit: Function) => {
-  setUserSuit({
+  setUserSuit((current: UserSuit) => ({
+    login: current.login,
+    signOut: current.singOut,
     user: user,
-    login: login,
-    singOut: signOut,
-  });
+  }));
 
   if (!user.expires) {
     return;
@@ -37,10 +37,11 @@ const login = (user: IUser, setUserSuit: Function) => {
 const signOut = (setUserSuit: Function) => {
   document.cookie = 'token=;expires=Thu, 01 Jan 1970 00:00:00 UTC;';
   document.cookie = 'role=;expires=Thu, 01 Jan 1970 00:00:00 UTC;';
-  setUserSuit({
-    login: login,
-    singOut: signOut,
-    user: undefined,
+  setUserSuit((current: UserSuit) => {
+    return {
+      ...current,
+      user: undefined,
+    };
   });
 };
 
@@ -62,13 +63,14 @@ export const UserContextProvider = ({ children }: Props) => {
       return;
     }
 
-    setUserSuit({
-      login: login,
-      singOut: () => signOut(setUserSuit),
-      user: {
-        token: token,
-        role: role,
-      },
+    setUserSuit((current: UserSuit) => {
+      return {
+        ...current,
+        user: {
+          token: token,
+          role: role,
+        },
+      };
     });
   }, [userSuit]);
 

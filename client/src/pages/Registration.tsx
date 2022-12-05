@@ -1,8 +1,8 @@
-import { useForm } from "react-hook-form";
-import * as yup from "yup";
-import YupPassword from "yup-password";
-import { yupResolver } from "@hookform/resolvers/yup";
-import ax from "../utilities/Axios";
+import { useForm } from 'react-hook-form';
+import * as yup from 'yup';
+import YupPassword from 'yup-password';
+import { yupResolver } from '@hookform/resolvers/yup';
+import ax from '../utilities/Axios';
 import {
   Box,
   TextField,
@@ -14,8 +14,9 @@ import {
   Radio,
   Typography,
   useTheme,
-} from "@mui/material";
-import { Link } from "react-router-dom";
+} from '@mui/material';
+import { Link } from 'react-router-dom';
+import { useUser } from '../components/UserContext';
 
 YupPassword(yup);
 
@@ -27,7 +28,7 @@ const schema = yup.object().shape({
   password: yup.string().password(),
   passwordConfirmation: yup
     .string()
-    .oneOf([yup.ref("password"), null], "Passwords must match"),
+    .oneOf([yup.ref('password'), null], 'Passwords must match'),
 });
 
 type inputs = {
@@ -36,7 +37,7 @@ type inputs = {
   email: string;
   password: string;
   passwordConfirmation: string;
-  role: "patient" | "medic";
+  role: 'patient' | 'medic';
 };
 
 const Registration = () => {
@@ -49,10 +50,14 @@ const Registration = () => {
   });
 
   const theme = useTheme();
+  const userSuit = useUser();
 
   const onSubmit = async (data: inputs) => {
-    const response = await ax.post("/Authentication/sign-up", data);
-    console.log(response);
+    const response = await ax.post('/Authentication/sign-up', data);
+    if (response.status === 200) {
+      userSuit?.login(response.data);
+      window.location.href = '/';
+    }
   };
 
   return (
@@ -70,23 +75,23 @@ const Registration = () => {
         <TextField
           label="Email"
           variant="outlined"
-          {...register("email")}
-          sx={{ mb: theme.custom?.spacing?.input, width: "100%" }}
+          {...register('email')}
+          sx={{ mb: theme.custom?.spacing?.input, width: '100%' }}
           error={!!errors.email}
         />
 
         <TextField
           label="Name"
           variant="outlined"
-          {...register("name")}
-          sx={{ mb: theme.custom?.spacing?.input, width: "100%" }}
+          {...register('name')}
+          sx={{ mb: theme.custom?.spacing?.input, width: '100%' }}
           error={!!errors.name}
         />
         <TextField
           label="Last name"
           variant="outlined"
-          {...register("lastName")}
-          sx={{ mb: theme.custom?.spacing?.input, width: "100%" }}
+          {...register('lastName')}
+          sx={{ mb: theme.custom?.spacing?.input, width: '100%' }}
           error={!!errors.lastName}
         />
 
@@ -94,8 +99,8 @@ const Registration = () => {
           label="Password"
           type="password"
           variant="outlined"
-          {...register("password")}
-          sx={{ mb: theme.custom?.spacing?.input, width: "100%" }}
+          {...register('password')}
+          sx={{ mb: theme.custom?.spacing?.input, width: '100%' }}
           error={!!errors.password}
         />
 
@@ -103,8 +108,8 @@ const Registration = () => {
           label="Confirm password"
           type="password"
           variant="outlined"
-          sx={{ mb: theme.custom?.spacing?.input, width: "100%" }}
-          {...register("passwordConfirmation")}
+          sx={{ mb: theme.custom?.spacing?.input, width: '100%' }}
+          {...register('passwordConfirmation')}
           error={!!errors.passwordConfirmation}
         />
 
@@ -116,13 +121,13 @@ const Registration = () => {
           >
             <FormControlLabel
               value="patient"
-              {...register("role")}
+              {...register('role')}
               control={<Radio />}
               label="Patient"
             />
             <FormControlLabel
               value="medic"
-              {...register("role")}
+              {...register('role')}
               control={<Radio />}
               label="Medic"
             />

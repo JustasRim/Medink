@@ -10,7 +10,6 @@ type Props = {
 
 const MainLayout = ({ children }: Props) => {
   const [expanded, setExpanded] = useState(false);
-
   const userSuit = useUser();
 
   useEffect(() => {
@@ -38,6 +37,7 @@ const MainLayout = ({ children }: Props) => {
     userSuit?.singOut();
   };
 
+  console.log(userSuit?.user);
   return (
     <div className="app">
       <header className="header">
