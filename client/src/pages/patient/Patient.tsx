@@ -18,13 +18,13 @@ import ax from '../../utilities/Axios';
 import { Role } from '../../utilities/Enums';
 import * as yup from 'yup';
 
-const Doctor = () => {
+const Patient = () => {
   const { id } = useParams();
   const { isLoading, isSuccess, data } = useQuery<IEntity, Error>(
-    ['doctor'],
+    ['patient'],
     async () => {
-      const doctor = await ax.get(`medic/${id}`);
-      return doctor.data;
+      const patient = await ax.get(`patient/${id}`);
+      return patient.data;
     }
   );
 
@@ -52,7 +52,7 @@ const Doctor = () => {
   });
 
   const onSubmit = async (data: inputs) => {
-    const response = await ax.put('/Medic', data);
+    const response = await ax.put('/patient', data);
     if (response.status === 200) {
     }
   };
@@ -69,7 +69,7 @@ const Doctor = () => {
     <>
       <section>
         <Typography sx={{ mt: 10 }} variant="h1" component="div">
-          {`Dr. ${data.name} ${data.lastName}`}
+          {`${data.name} ${data.lastName}`}
         </Typography>
       </section>
       {userSuit?.user?.role === Role.Admin ? (
@@ -146,4 +146,4 @@ const Doctor = () => {
   );
 };
 
-export default Doctor;
+export default Patient;

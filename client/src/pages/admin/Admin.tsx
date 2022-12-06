@@ -86,7 +86,7 @@ const Admin = () => {
       return;
     }
 
-    window.location.href = `doctor/${selectedPatientsIds[0]}`;
+    window.location.href = `patient/${selectedPatientsIds[0]}`;
   };
 
   return (

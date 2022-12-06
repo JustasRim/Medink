@@ -5,6 +5,7 @@ import MainLayout from './layout/MainLayout';
 import Home from './pages/home/Home';
 import Doctor from './pages/doctor/Doctor';
 import Admin from './pages/admin/Admin';
+import Patient from './pages/patient/Patient';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/doctor/:id" element={<Doctor />} />
         <Route path="/admin" element={<Admin />} />
+        <Route path="/patient/:id" element={<Patient />} />
       </Routes>
     </MainLayout>
   );

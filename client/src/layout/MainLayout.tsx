@@ -37,7 +37,6 @@ const MainLayout = ({ children }: Props) => {
     userSuit?.singOut();
   };
 
-  console.log(userSuit?.user);
   return (
     <div className="app">
       <header className="header">
@@ -50,13 +49,16 @@ const MainLayout = ({ children }: Props) => {
               Admin
             </Link>
           )}
-          <Link className="header__link" to="/sign-up" tabIndex={0}>
-            Register
-          </Link>
+
           {!userSuit?.user ? (
-            <Link className="header__link" to="/login" tabIndex={0}>
-              Login
-            </Link>
+            <>
+              <Link className="header__link" to="/sign-up" tabIndex={0}>
+                Register
+              </Link>
+              <Link className="header__link" to="/login" tabIndex={0}>
+                Login
+              </Link>
+            </>
           ) : (
             <button
               color="secondary"
