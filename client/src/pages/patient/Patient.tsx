@@ -2,10 +2,14 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import {
   Avatar,
   Button,
+  FormControl,
+  InputLabel,
   List,
   ListItem,
   ListItemAvatar,
   ListItemText,
+  MenuItem,
+  Select,
   TextField,
   Typography,
 } from '@mui/material';
@@ -13,14 +17,14 @@ import { useQuery } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
 import { useUser } from '../../components/UserContext';
-import { IEntity } from '../../Interfaces/IEntity';
+import { IEntity, IPatient } from '../../Interfaces/IEntity';
 import ax from '../../utilities/Axios';
 import { Role } from '../../utilities/Enums';
 import * as yup from 'yup';
 
 const Patient = () => {
   const { id } = useParams();
-  const { isLoading, isSuccess, data } = useQuery<IEntity, Error>(
+  const { isLoading, isSuccess, data } = useQuery<IPatient, Error>(
     ['patient'],
     async () => {
       const patient = await ax.get(`patient/${id}`);
@@ -28,11 +32,17 @@ const Patient = () => {
     }
   );
 
+  const { data: doctorsData } = useQuery(['doctors'], async () => {
+    const medics = await ax.get('medic');
+    return medics.data;
+  });
+
   const userSuit = useUser();
 
   const schema = yup.object().shape({
     email: yup.string().email().required(),
     phone: yup.string().optional(),
+    medicId: yup.number().optional(),
   });
 
   type inputs = {
@@ -40,6 +50,7 @@ const Patient = () => {
     lastName: string;
     email: string;
     number: string;
+    medicId: number;
     id: number;
   };
 
@@ -101,6 +112,26 @@ const Patient = () => {
                 sx={{ width: '100%' }}
                 error={!!errors.number}
               />
+            </ListItem>
+            <ListItem>
+              <FormControl fullWidth>
+                <InputLabel id="select-label">Medikas</InputLabel>
+                <Select
+                  labelId="select-label"
+                  id="select"
+                  defaultValue={data.medicId}
+                  label="Age"
+                  {...register('medicId')}
+                >
+                  {doctorsData?.map((doctor: IEntity) => {
+                    return (
+                      <MenuItem key={doctor.id} value={doctor.id}>
+                        {doctor.name}
+                      </MenuItem>
+                    );
+                  })}
+                </Select>
+              </FormControl>
             </ListItem>
           </List>
           <TextField value={data.name} type="hidden" {...register('name')} />

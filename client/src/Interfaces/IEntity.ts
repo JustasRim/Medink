@@ -5,3 +5,7 @@ export interface IEntity {
   email: string;
   number: string;
 }
+
+export interface IPatient extends IEntity {
+  medicId: number;
+}
