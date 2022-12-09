@@ -26,6 +26,9 @@ jobs:
         run: |
           npm install
           npm run build
+          
+      - name: Copy web.config
+        run: Copy-Item .\client\web.config -Destination .\client\build\
       
       - name: Zip artifact
         run: Compress-Archive .\client\build\* release.zip
