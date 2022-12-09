@@ -14,12 +14,15 @@ const Home = () => {
   }
 
   return (
-    <section className="doctors">
-      {isSuccess &&
-        data?.data.map((entity: IEntity) => (
-          <EntityCard key={entity.id} {...entity} />
-        ))}
-    </section>
+    <>
+      <section className="hero">Inspiring text</section>
+      <section className="doctors">
+        {isSuccess &&
+          data?.data.map((entity: IEntity) => (
+            <EntityCard key={entity.id} {...entity} />
+          ))}
+      </section>
+    </>
   );
 };
 

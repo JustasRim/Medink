@@ -111,7 +111,7 @@ const MainLayout = ({ children }: Props) => {
         </div>
       </div>
       <main className="main">{children}</main>
-      <footer></footer>
+      <footer className="footer">&copy; Justas Rimkus</footer>
     </div>
   );
 };
