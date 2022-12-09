@@ -221,15 +221,17 @@ const Patient = () => {
       </section>
       <section>
         <div style={{ height: 475, width: '100%' }}>
-          <DataGrid
-            rows={symptomData}
-            columns={columns}
-            pageSize={7}
-            rowsPerPageOptions={[7]}
-            onSelectionModelChange={(ids) => {
-              setSelectedPatientsIds(ids as number[]);
-            }}
-          />
+          {symptomData && (
+            <DataGrid
+              rows={symptomData}
+              columns={columns}
+              pageSize={7}
+              rowsPerPageOptions={[7]}
+              onSelectionModelChange={(ids) => {
+                setSelectedPatientsIds(ids as number[]);
+              }}
+            />
+          )}
         </div>
         <Button
           variant="contained"
