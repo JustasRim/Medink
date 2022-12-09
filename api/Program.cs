@@ -48,7 +48,7 @@ namespace api
             {
                 options.AddDefaultPolicy(policy =>
                 {
-                    policy.WithOrigins("http://localhost:3000")
+                    policy.WithOrigins("http://localhost:3000", "https://medink.azurewebsites.net")
                         .AllowAnyMethod()
                         .AllowAnyHeader();
                 });
