@@ -2,7 +2,7 @@ import axios from 'axios';
 import { getCookie } from './CookieManager';
 
 const ax = axios.create({
-  baseURL: 'https://localhost:7222/api/v1',
+  baseURL: 'https://medink-api.azurewebsites.net/api/v1',
 });
 
 ax.interceptors.request.use((config) => {
