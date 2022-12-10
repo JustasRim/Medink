@@ -77,8 +77,6 @@ const Patient = () => {
 
   const onSubmit = async (data: inputs) => {
     const response = await ax.put('/patient', data);
-    if (response.status === 200) {
-    }
   };
 
   const handleSymptom = async () => {

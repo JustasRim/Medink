@@ -70,7 +70,7 @@ const Login = () => {
             Submit
           </Button>
         </Box>
-        <Link to="/sign-up">Don't have an account?</Link>
+        <Link to="/sign-up">Don&apos;t have an account?</Link>
       </Box>
     </Box>
   );

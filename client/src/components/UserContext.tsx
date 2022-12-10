@@ -10,15 +10,18 @@ type Props = {
 
 type UserSuit = {
   user?: IUser;
-  login: Function;
-  singOut: Function;
+  login: (user: IUser) => void;
+  singOut: () => void;
 };
 
 export const useUser = () => {
   return useContext(userSuitContext);
 };
 
-const login = (user: IUser, setUserSuit: Function) => {
+const login = (
+  user: IUser,
+  setUserSuit: (val: (cur: UserSuit) => void) => void
+) => {
   setUserSuit((current: UserSuit) => ({
     login: current.login,
     signOut: current.singOut,
@@ -34,7 +37,7 @@ const login = (user: IUser, setUserSuit: Function) => {
   document.cookie = `role=${user.role};expires=${expiration}`;
 };
 
-const signOut = (setUserSuit: Function) => {
+const signOut = (setUserSuit: (val: (cur: UserSuit) => void) => void) => {
   document.cookie = 'token=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;';
   document.cookie = 'role=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;';
   setUserSuit((current: UserSuit) => ({
@@ -46,8 +49,10 @@ const signOut = (setUserSuit: Function) => {
 
 export const UserContextProvider = ({ children }: Props) => {
   const [userSuit, setUserSuit] = useState<UserSuit>({
-    login: (usr: IUser) => login(usr, setUserSuit),
-    singOut: () => signOut(setUserSuit),
+    login: (usr: IUser) =>
+      login(usr, setUserSuit as (val: (cur: UserSuit) => void) => void),
+    singOut: () =>
+      signOut(setUserSuit as (val: (cur: UserSuit) => void) => void),
     user: undefined,
   });
 
